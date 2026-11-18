@@ -138,7 +138,7 @@ test("group add command requires bot admin and calls Baileys participant add", a
     async groupParticipantsUpdate(...args) { call = args; return [{ status: "200" }]; }
   } } } };
   await addPlugin.execute({
-    message: { isGroup: true, botIsAdmin: true },
+    message: { isGroup: true, botIsAdmin: true, chatId: "test-group" },
     args: ["201234567890"],
     reply: async value => replies.push(value),
     context
@@ -148,7 +148,7 @@ test("group add command requires bot admin and calls Baileys participant add", a
 
   const denied = [];
   await addPlugin.execute({
-    message: { isGroup: true, botIsAdmin: false },
+    message: { isGroup: true, botIsAdmin: false, chatId: "test-group" },
     args: ["201234567890"],
     reply: async value => denied.push(value),
     context
