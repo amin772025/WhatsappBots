@@ -24,9 +24,15 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
   wa.onMessage(async message => {
     if (message.isGroup) {
       const metadata = await wa.socket?.groupMetadata(message.chatId).catch(() => null);
+      const identities = [
+        message.senderJid,
+        message.raw?.key?.participantPn,
+        message.raw?.key?.participant,
+        message.raw?.key?.senderPn
+      ].filter(Boolean);
       const participant = metadata?.participants?.find(item =>
-        [message.senderJid, message.raw?.key?.participantPn, message.raw?.key?.participant]
-          .filter(Boolean).includes(item.id)
+        identities.includes(item.id) ||
+        (message.senderNumber && String(item.phoneNumber || "").replace(/\\D/g, "") === message.senderNumber)
       );
       message.senderIsAdmin = Boolean(participant?.admin);
     }
