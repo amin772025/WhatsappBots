@@ -121,6 +121,10 @@ test("group command plugins are registered and require admin privileges", async 
   assert.ok(registry.resolve("grouplink"));
   assert.ok(registry.resolve("dice"));
   assert.ok(registry.resolve("base64decode"));
+  for (const name of ["mode", "setprefix", "setbotname", "setlang"]) {
+    assert.equal(registry.resolve(name)?.ownerOnly, true, name);
+  }
+  assert.equal(registry.size, 48);
 });
 
 test("group target resolver supports mentions, quotes and validated phone numbers", () => {
