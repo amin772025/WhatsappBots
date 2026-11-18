@@ -4,10 +4,11 @@ import { createPermissionService } from "./core/permissions.js";
 import { createDispatcher } from "./core/dispatcher.js";
 import { renderMenu } from "./core/menu/renderer.js";
 import { createBaileysProvider } from "./adapters/baileys/provider.js";
+import { fileURLToPath } from "node:url";
 
 export async function createRuntime({ config = loadConfig(), provider = null } = {}) {
   const registry = new PluginRegistry();
-  await registry.loadDirectory(new URL("./plugins/core/", import.meta.url).pathname);
+  await registry.loadDirectory(fileURLToPath(new URL("./plugins/core/", import.meta.url)));
   const permissions = createPermissionService(config);
   const wa = provider || createBaileysProvider({
     sessionDir: config.sessionDir,
@@ -29,7 +30,7 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
       );
       message.senderIsAdmin = Boolean(participant?.admin);
     }
-    const result = await dispatch(message, { startedAt: runtime.startedAt });
+    const result = await dispatch(message, { runtime });
     if (result.status === "unknown-command") {
       await wa.sendText(message.chatId, `الأمر غير موجود. اكتب ${config.prefix}menu لعرض القائمة.`);
     }
