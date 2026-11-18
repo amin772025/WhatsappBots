@@ -22,10 +22,10 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (71 plugins)
+## Current command set (74 plugins)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
-- Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`
+- Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`, `warn`, `unwarn`, `warnings`
 - Tools: `calc`, `reverse`, `brat`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
 - Games and virtual rewards: `8ball`, `coin`, `dice`, `rps`, `daily`, `work`, `balance`, `top`
 - Owner controls: `mode`, `setprefix`, `setbotname`, `setlang` (owner-only; changes persist)
