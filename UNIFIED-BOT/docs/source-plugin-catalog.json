@@ -28,7 +28,6 @@
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/ig.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/mediafire.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/pinterest.js",
-          "extracted/HIROBOT/HIROBOT-main/plugins/dl/pornhub.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/reddit.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/sfile.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/shinigami.js",
@@ -120,7 +119,9 @@
           "extracted/HIROBOT/HIROBOT-main/plugins/tools/viewonce.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/tools/wink.js"
         ]
-      }
+      },
+      "reviewStatus": "inventory only; not automatically imported",
+      "migrationRule": "manual API, dependency, permission and safety review required"
     },
     "NOX": {
       "javascriptFiles": 188,
@@ -286,7 +287,9 @@
           "extracted/NOX-BOT/NOX-BOT/plugins/مجموعة-صباح.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/مجموعة-ليلة.js"
         ]
-      }
+      },
+      "reviewStatus": "inventory only; not automatically imported",
+      "migrationRule": "manual API, dependency, permission and safety review required"
     },
     "PatrickMD": {
       "javascriptFiles": 319,
@@ -637,7 +640,10 @@
           "extracted/PatrickMD/plugins/tools/votech.js",
           "extracted/PatrickMD/plugins/tools/web2apk.js"
         ]
-      }
+      },
+      "reviewStatus": "inventory only; not automatically imported",
+      "migrationRule": "manual API, dependency, permission and safety review required"
     }
-  }
+  },
+  "note": "This inventory intentionally omits categories and filenames unsuitable for a teen-safe general-purpose bot. Paths are source inventory only; none of these plugins are loaded by the unified runtime."
 }
