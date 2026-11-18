@@ -1,5 +1,8 @@
 import { downloadMediaMessage } from "@whiskeysockets/baileys";
 import sharp from "sharp";
+import pino from "pino";
+
+const logger = pino({ level: "silent" });
 
 const MAX_INPUT_BYTES = 12 * 1024 * 1024;
 const MAX_OUTPUT_BYTES = 1 * 1024 * 1024;
@@ -30,7 +33,7 @@ export async function getImageBuffer(message) {
   const media = source.message?.imageMessage || source.message?.stickerMessage;
   const size = Number(media?.fileLength || 0);
   if (size > MAX_INPUT_BYTES) throw new Error("Image is too large (maximum 12 MB).");
-  const buffer = await downloadMediaMessage(source, "buffer", {}, {});
+  const buffer = await downloadMediaMessage(source, "buffer", {}, { logger, reuploadRequest: message.socket?.updateMediaMessage?.bind(message.socket) });
   if (!Buffer.isBuffer(buffer) || !buffer.length || buffer.length > MAX_INPUT_BYTES) {
     throw new Error("Could not download this image or it exceeds the size limit.");
   }
