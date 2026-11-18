@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node start.js",
     "test": "node --test",
-    "check": "node --check start.js && node --check core/config.js && node --check core/group-actions.js && node --check core/math/evaluator.js && node --check core/storage/json-store.js && node --check core/plugin-registry.js && node --check core/permissions.js && node --check core/dispatcher.js && node --check core/menu/renderer.js && node --check adapters/baileys/provider.js && node --check runtime.js"
+    "check": "node scripts/check-syntax.js"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "6.7.24",
