@@ -1,7 +1,7 @@
 import { updateUser } from "../../core/user-economy.js";
 const DAY = 24 * 60 * 60 * 1000;
 export default {
-  id: "daily", command: "daily", category: "Games",
+  id: "daily", command: "daily", category: "Money",
   description: "Claim free virtual coins once every 24 hours",
   async execute({ message, reply, context }) {
     try {
