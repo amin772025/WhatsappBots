@@ -1,6 +1,6 @@
 # Legacy plugin migration and audit
 
-The three original codebases remain untouched. Their plugin files are catalogued in `source-plugin-catalog.json`. The catalog is an inventory, not an executable plugin bundle.
+The three original codebases remain untouched. All 518 plugin files listed in `source-plugin-catalog.json` are mirrored byte-for-byte under `source-archive/` (with source-specific folders). This archive is inert: it is not registered, imported, or executed by the unified runtime.
 
 ## Implemented in the unified runtime
 
@@ -12,6 +12,10 @@ The current folder contains 67 independently implemented plugins:
 - Group extras: group ID, admin list, admin-only member mentions/hidetag, and persistent group rules.
 - Knowledge and utility extras: short supplications/remembrance, Asma ul Husna, inspirational quotes, short URL, server diagnostics and Cairo-local date/time.
 - Public reference tools: weather, Wikipedia summary.
+
+## Archived source files and migration status
+
+The 518 source files are now present in `source-archive/` for later inspection. Their presence does not mean they have been ported or are ready to run. Only the 67 plugins in `plugins/core/` are currently loaded by the runtime.
 
 ## Why the other source plugins are not imported automatically
 
@@ -34,4 +38,4 @@ Do not add adult-content commands, stalking or personal-data enumeration, creden
 
 A plugin is an ESM default export with `id`, `command`, optional `aliases`, `category`, `description`, optional `ownerOnly`/`adminOnly`, and `execute({ message, args, reply, config, permissions, context })`.
 
-Place only reviewed executable plugins inside `plugins/`. The loader imports JavaScript files in that directory at startup.
+Place only reviewed executable plugins inside `plugins/`. The loader currently imports JavaScript files from `plugins/core/` only. Never move the raw archive into the active plugin directory without reviewing and adapting each plugin.
