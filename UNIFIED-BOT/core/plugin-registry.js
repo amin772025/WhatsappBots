@@ -4,10 +4,10 @@ import { pathToFileURL } from "node:url";
 
 const COMMAND_RE = /^[\p{L}\p{N}_-]{1,40}$/u;
 
-function normalizeCommands(value) {
+function normalizeCommands(value, { allowEmpty = false } = {}) {
   const list = Array.isArray(value) ? value : [value];
   const commands = list.map(item => String(item).trim().toLocaleLowerCase()).filter(Boolean);
-  if (!commands.length || commands.some(command => !COMMAND_RE.test(command))) {
+  if ((!allowEmpty && !commands.length) || commands.some(command => !COMMAND_RE.test(command))) {
     throw new TypeError("Plugin commands must be 1–40 letters, digits, _ or -");
   }
   return [...new Set(commands)];
@@ -28,7 +28,7 @@ export class PluginRegistry {
     if (!id) throw new TypeError("Plugin id is required");
     if (this.#plugins.has(id)) throw new Error(`Duplicate plugin id: ${id}`);
 
-    const aliases = normalizeCommands(plugin.aliases ?? []);
+    const aliases = normalizeCommands(plugin.aliases ?? [], { allowEmpty: true });
     for (const command of [...commands, ...aliases]) {
       if (this.#aliases.has(command)) throw new Error(`Duplicate command: ${command}`);
     }
