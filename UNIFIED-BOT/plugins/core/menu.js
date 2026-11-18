@@ -3,13 +3,13 @@ export default {
   command: "menu",
   category: "General",
   description: "Show the command menu",
-  async execute({ reply, config, context }) {
+  async execute({ reply, config, context, args, message }) {
     const menu = context.runtime?.menu?.(args[0] || "", message?.senderNumber) || [
       `╭─「 ${config.botName} 」`,
       `│ Prefix: ${config.prefix}`,
       `│ Developer: ${config.developer}`,
       `╰────────────`
-    ].join("\\n");
+    ].join("\n");
     await reply(menu);
   }
 };
