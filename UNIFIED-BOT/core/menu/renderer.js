@@ -1,11 +1,11 @@
-const categoryOrder = ["General", "Main", "Group", "Tools", "Downloader", "AI", "Games", "Owner", "Info"];
+const categoryOrder = ["General", "Main", "Group", "Admin", "Tools", "Downloader", "AI", "Money", "Games", "Owner", "Info"];
 const categoryIcons = {
   general: "✨", main: "🏠", group: "🛡️", tools: "🧰",
-  downloader: "📥", ai: "🤖", games: "🎮", owner: "👑", info: "📊"
+  downloader: "📥", ai: "🤖", admin: "🛡️", money: "💰", games: "🎮", owner: "👑", info: "📊"
 };
 const categoryArabic = {
   general: "عام", main: "الرئيسية", group: "المجموعات", tools: "الأدوات",
-  downloader: "التنزيلات", ai: "الذكاء الاصطناعي", games: "الألعاب",
+  downloader: "التنزيلات", ai: "الذكاء الاصطناعي", admin: "الإدارة", money: "المال", games: "الألعاب",
   owner: "المطور", info: "المعلومات"
 };
 const categoryTitle = (name, ar) => {
