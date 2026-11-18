@@ -134,7 +134,12 @@ test("group command plugins are registered and require admin privileges", async 
   assert.equal(registry.resolve("songinfo")?.id, "lyrics");
   assert.ok(registry.resolve("warn"));
   assert.ok(registry.resolve("unwarn"));
-  assert.ok(registry.resolve("warnings"));\n  for (const name of ["ai", "gpt", "deepseek", "bing", "explain", "summarize", "translateai"]) assert.ok(registry.resolve(name), name);\n  for (const name of ["bank", "deposit", "withdraw", "pay"]) assert.ok(registry.resolve(name), name);\n  assert.equal(registry.resolve("ai")?.category, "AI");\n  assert.equal(registry.resolve("warn")?.category, "Admin");\n  assert.equal(registry.resolve("deposit")?.category, "Money");
+  assert.ok(registry.resolve("warnings"));
+  for (const name of ["ai", "gpt", "deepseek", "bing", "explain", "summarize", "translateai"]) assert.ok(registry.resolve(name), name);
+  for (const name of ["bank", "deposit", "withdraw", "pay"]) assert.ok(registry.resolve(name), name);
+  assert.equal(registry.resolve("ai")?.category, "AI");
+  assert.equal(registry.resolve("warn")?.category, "Admin");
+  assert.equal(registry.resolve("deposit")?.category, "Money");
   assert.equal(registry.resolve("gh")?.id, "github");
   assert.equal(registry.resolve("npmsearch")?.id, "npm");
   assert.equal(registry.resolve("mal")?.id, "animesearch");
