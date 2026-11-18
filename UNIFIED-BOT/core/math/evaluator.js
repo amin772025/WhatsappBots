@@ -13,7 +13,7 @@ export function evaluateArithmetic(expression) {
       if (tokens[index++] !== ")") throw new SyntaxError("Missing closing parenthesis");
       return value;
     }
-    if (token === undefined || !/^\d*\.?\d+$/.test(token)) {
+    if (token === undefined || !/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(token)) {
       throw new SyntaxError("Expected a number");
     }
     const value = Number(token);
