@@ -11,10 +11,6 @@ on:
       - "UNIFIED-BOT/**"
   workflow_dispatch:
 
-concurrency:
-  group: unified-bot-tests-${{ github.ref }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
 
