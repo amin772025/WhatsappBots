@@ -137,6 +137,11 @@ test("group command plugins are registered and require admin privileges", async 
   assert.ok(registry.resolve("warnings"));
   assert.equal(registry.resolve("gh")?.id, "github");
   assert.equal(registry.resolve("npmsearch")?.id, "npm");
+  assert.equal(registry.resolve("mal")?.id, "animesearch");
+  assert.equal(registry.resolve("songinfo")?.id, "lyrics");
+  assert.ok(registry.resolve("warn"));
+  assert.ok(registry.resolve("unwarn"));
+  assert.ok(registry.resolve("warnings"));
 });
 
 
