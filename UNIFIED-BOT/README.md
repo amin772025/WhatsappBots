@@ -32,7 +32,7 @@ The example owner number is intentionally blank. Startup will stop until you con
 - Group extras: `idgc`, `listadmin`, `tagall`, `hidetag`, `setrules`, `rules`
 - Games and knowledge: `trivia`, `mathquiz`, `wordmix`, `animequote`, `asmaulhusna`, `doa`, `tasbih`
 - Utilities and diagnostics: `idme`, `shorturl`, `server`, `date`
-- Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`
+- Search: `github` / `gh`, `npm` / `npmsearch`\n- Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`
 
 Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
 
@@ -53,15 +53,15 @@ Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Gro
 - `core/media.js`: bounded image/sticker conversion.
 - `adapters/baileys/provider.js`: Baileys connection, QR events, message normalization and group participant events.
 - `runtime.js`: plugin dispatch, anti-link moderation, welcome events and usage counters.
-- `plugins/core/`: the 67 implemented unified commands.
+- `plugins/core/`: the 69 implemented unified commands.
 
 ## Multi-instance use
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
 
 ## Source compatibility and exclusions
-The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 67 commands in this folder are implemented against the new plugin contract and do not import legacy globals.
+The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 69 commands in this folder are implemented against the new plugin contract and do not import legacy globals.
 
-Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define` and `translate` are public third-party services and may change or apply their own limits.
+Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define`, `translate`, `github` and `npm` are public third-party services and may change or apply their own limits.
 
 ## Validation
 GitHub Actions runs a recursive syntax check over all JavaScript files, the automated test suite, and packages a ZIP artifact (without your settings or WhatsApp session) on changes to this folder. The tests use a fake WhatsApp provider; they do not log in to a real WhatsApp account. Real-device pairing must be completed by the operator.
