@@ -129,7 +129,7 @@ test("group command plugins are registered and require admin privileges", async 
   assert.equal(registry.resolve("mute")?.id, "groupclose");
   assert.equal(registry.resolve("unmute")?.id, "groupopen");
   assert.equal(registry.resolve("brat")?.id, "brat");
-  assert.equal(registry.size, 85);
+  assert.equal(registry.size, 185);
   assert.equal(registry.resolve("mal")?.id, "animesearch");
   assert.equal(registry.resolve("songinfo")?.id, "lyrics");
   assert.ok(registry.resolve("warn"));
@@ -142,6 +142,7 @@ test("group command plugins are registered and require admin privileges", async 
   assert.ok(registry.resolve("warn"));
   assert.ok(registry.resolve("unwarn"));
   assert.ok(registry.resolve("warnings"));
+  for (const command of ["uppercase","lowercase","titlecase","sentencecase","swapcase","reversewords","wordcount","charcount","linecount","paragraphcount","trimtext","dedupewords","sortlines","uniquelines","shufflewords","initials","acronym","slugify","palindrome","anagram","urlencode","urldecode","htmlencode","htmldecode","jsonformat","jsonminify","base32encode","base32decode","hexencode","hexdecode","binaryencode","binarydecode","morse","unmorse","rot13","caesar","regexescape","markdowncode","quoteformat","listformat","randomnumber","randomchoice","shufflelist","uuidgen","passwordgen","timestamp","dateiso","daysbetween","adddays","weekday","percentage","percentof","average","median","minmax","sumlist","factorial","primecheck","fibonacci","gcd","lcm","roundnum","sqrt","power","converttemp","convertkm","convertkg","convertcm","convertbytes","roman","textstats","emojicount","vowelcount","consonantcount","digitcount","spacecount","punctcount","readingtime","sentencecount","longestword","shortestword","wordfrequency","acrostic","rhymehint","tonguetwister","triviafact","riddle","motivate","compliment","wouldyourather","studyplan","pomodoro","flashcard","quizscore","gradecalc","gpahelper","examcountdown","notesummary","definitioncard","citationformat"]) assert.ok(registry.resolve(command), command);
 });
 
 
