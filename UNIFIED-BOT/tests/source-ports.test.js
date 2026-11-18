@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import plugins from "../plugins/core/source-ports-patrickmd.js";
 
 test("PatrickMD source-derived ports expose six distinct original features", () => {
-  assert.equal(plugins.length, 6);
+  assert.equal(plugins.length, 9);
   assert.equal(new Set(plugins.map(p => p.id)).size, 6);
   assert.ok(plugins.every(p => typeof p.execute === "function"));
 });
@@ -20,7 +20,7 @@ test("question commands require a prompt and answer when supplied", async () => 
 });
 
 test("pantun, rules and dzikir return content", async () => {
-  for (const command of ["pantun", "botrules", "dzikir"]) {
+  for (const command of ["pantun", "botrules", "dzikir", "sysinfo", "prayer-times", "groups"]) {
     const plugin = plugins.find(p => p.command === command);
     const replies = [];
     await plugin.execute({ args: [], reply: async value => replies.push(value), config: { botName: "Test" } });
