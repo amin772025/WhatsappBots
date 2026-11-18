@@ -1,40 +1,35 @@
-# Plugin migration notes
+# Legacy plugin migration and audit
 
-The source inventory is stored in `source-plugin-catalog.json`. It records file paths and original counts without importing source code into the new runtime.
+The three original codebases remain untouched. Their plugin files are catalogued in `source-plugin-catalog.json`. The catalog is an inventory, not an executable plugin bundle.
 
-## What is migrated now
+## Implemented in the unified runtime
 
-- `ping`: minimal connectivity response.
-- `menu`: category-first navigation, category view and all-commands view.
-- `stats`: per-instance aggregate counters.
-- `calc`: safe arithmetic parser (no `eval` or dynamic code execution).
-- `quote`: short original motivational messages.
-- `runtime`: process uptime.
-- `owner`: configured public owner/developer contact.
-- `groupinfo`: read-only current-group details.
-- Registry, dispatch, permissions, persistence and Baileys connection are implemented independently of the legacy global state.
+The current folder contains 44 independently implemented plugins:
+- Core and information: menu/help, ping, owner, runtime, stats, profile, quote, joke, fact, report.
+- Group management: group info/link, kick, promote/demote, rename/description, open/close, revoke link, anti-link, welcome and custom welcome text.
+- Utilities and media: calculator, reverse, Base64 encode/decode, UUID, dictionary, translation, QR image, sticker and PNG conversion.
+- Games: dice, coin flip, 8-ball, rock-paper-scissors, choose, daily rewards, work cooldown, balance and leaderboard.
+- Public reference tools: weather, Wikipedia summary.
 
-## Why legacy plugins are not copied wholesale
+## Why the other source plugins are not imported automatically
 
-The three projects use different command metadata, event wrappers, global objects, database schemas, permission conventions and Baileys forks. A source plugin may appear to load while silently losing group checks, owner checks, quoted-message helpers or persistence behavior.
+The sources use incompatible Baileys forks and different message wrappers, global state, permission checks, database layouts, and helper APIs. Loading an old plugin without adapting those dependencies can make a command fail silently or grant incorrect privileges.
 
-Each candidate must be reviewed for:
-1. Dependencies and Node compatibility.
-2. Message parsing, media handling and reply API assumptions.
-3. Owner/admin authorization and LID/phone identity handling.
-4. External network calls, API keys, file writes and child-process use.
-5. Privacy, rate limits and user consent.
-6. Duplicate command names and aliases.
-7. A test using the unified plugin contract.
+Every additional port must be reviewed for:
+1. Dependency and Node.js compatibility.
+2. Command metadata, aliases and event parsing.
+3. Owner/admin authorization, including WhatsApp LID/phone-number mapping.
+4. External network requests, API keys, data collection and rate limits.
+5. Media size limits and temporary-file cleanup.
+6. Duplicate commands and persistent-data compatibility.
+7. A test against the unified plugin contract.
 
-Only reviewed plugins should be placed in `plugins/`. The loader imports executable JavaScript; never place untrusted code there.
+## Deliberate exclusions
 
-## Next migration sequence
+Do not add adult-content commands, stalking or personal-data enumeration, credential harvesting, arbitrary shell/eval execution, extraction of private/once-viewed content, unsolicited bulk messaging, deceptive impersonation, or gambling/real-money betting. The current unified build has no such commands.
 
-1. Pure local utilities with no external credentials.
-2. Read-only information commands.
-3. Group administration commands after permission tests.
-4. Media commands only after dependency and file-size validation.
-5. External-service commands only when they have documented, optional API configuration.
+## Plugin contract
 
-Legacy plugins remain in their original folders. No original source file is modified.
+A plugin is an ESM default export with `id`, `command`, optional `aliases`, `category`, `description`, optional `ownerOnly`/`adminOnly`, and `execute({ message, args, reply, config, permissions, context })`.
+
+Place only reviewed executable plugins inside `plugins/`. The loader imports JavaScript files in that directory at startup.
