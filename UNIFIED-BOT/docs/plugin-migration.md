@@ -4,18 +4,18 @@ The three original codebases remain untouched. Of 560 discovered plugin source f
 
 ## Implemented in the unified runtime
 
-The current folder contains 69 independently implemented plugins:
+The current folder contains 74 independently implemented plugins:
 - Core and information: menu/help, ping, owner, runtime, stats, profile, quote, joke, fact, report, persistent mode/prefix/name/language controls.
 - Group management: group info/link, add/remove, kick, promote/demote, rename/description, open/close, revoke link, anti-link, welcome and custom welcome text.
 - Utilities and media: calculator, reverse, Base64 encode/decode, UUID, dictionary, translation, QR image, green text (`brat`) sticker, image sticker and PNG conversion.
 - Games: dice, coin flip, 8-ball, rock-paper-scissors, choose, trivia, arithmetic challenge, word scramble, daily rewards, work cooldown, balance and leaderboard.
 - Group extras: group ID, admin list, admin-only member mentions/hidetag, persistent group rules, and per-group warning records with warn/unwarn/list commands.
 - Knowledge and utility extras: short supplications/remembrance, Asma ul Husna, inspirational quotes, short URL, server diagnostics and Cairo-local date/time.
-- Public reference tools: weather, Wikipedia summary.\n- Discovery tools: safe-for-work anime metadata search through Jikan; song metadata and lyrics-page discovery through LRCLIB (the bot does not reproduce copyrighted song lyrics).\n- Developer search: public GitHub repository search and npm package search (no API key; subject to public rate limits).
+- Public reference tools: weather, Wikipedia summary.\n- Discovery tools: safe-for-work anime metadata search through Jikan; song metadata and lyrics-page discovery through LRCLIB (the bot does not reproduce copyrighted song lyrics).\n- Developer search: public GitHub repository search and npm package search (no API key; subject to public rate limits).\n- Group moderation: persistent warning records with add, remove-latest, and lookup commands.
 
 ## Archived source files and migration status
 
-Of the 560 discovered source plugin files, 558 are retained in the repository: 518 were copied into `source-archive/`, while 40 remain in the unchanged extracted source trees and are listed separately in the catalog. Two adult-content downloader files are deliberately not duplicated into the archive. None of these archived or extracted legacy files is loaded by the unified runtime. Only the 69 plugins in `plugins/core/` are currently loaded by the runtime.
+Of the 560 discovered source plugin files, 558 are retained in the repository: 518 were copied into `source-archive/`, while 40 remain in the unchanged extracted source trees and are listed separately in the catalog. Two adult-content downloader files are deliberately not duplicated into the archive. None of these archived or extracted legacy files is loaded by the unified runtime. Only the 74 plugins in `plugins/core/` are currently loaded by the runtime.
 
 ## Why the other source plugins are not imported automatically
 
