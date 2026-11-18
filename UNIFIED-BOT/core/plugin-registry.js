@@ -62,7 +62,7 @@ export class PluginRegistry {
         const full = path.resolve(current, item.name);
         if (!full.startsWith(root + path.sep)) continue;
         if (item.isDirectory()) await walk(full);
-        else if (item.isFile() && /\.m?js$/i.test(item.name)) discovered.push(full);
+        else if (item.isFile() && !item.name.startsWith("_") && /\.m?js$/i.test(item.name)) discovered.push(full);
       }
     }
     await walk(root);
