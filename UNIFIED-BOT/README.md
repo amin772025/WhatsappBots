@@ -1,89 +1,48 @@
-# Unified WhatsApp Bot — Integration Workspace
+# Amin Unified WhatsApp Bot
 
-This directory is a clean integration workspace. The three extracted source trees remain untouched.
+A clean, instance-based WhatsApp bot foundation built from a review of the three supplied codebases. Original bot folders and archives are not modified.
 
-## Current engineering decision
+## Requirements
 
-Do **not** combine the three Baileys forks by copying their socket helpers into one runtime. The source projects use different protocol implementations and different connection wrappers:
+- Node.js 22+
+- npm
+- A WhatsApp account that you are authorized to link as a companion device
 
-- HIROBOT: `baileys` aliased to `@hiroosy/baileys-lite@^0.3.7`
-- NOX-BOT: `@whiskeysockets/baileys` aliased to `@prototypevip/baileys@latest`
-- PatrickMD: `@rexxhayanasi/elaina-baileys@^1.4.7`
+## First run
 
-The initial unified runtime will therefore use a **provider adapter boundary**. The chosen provider will only be finalized after API/event compatibility tests. Source-specific plugins will be wrapped through compatibility adapters rather than loaded blindly.
+1. Copy `settings.example.js` to `settings.js` (or edit the included local `settings.js`).
+2. Set `ownerNumber` to the owner's international digits only (8–15 digits, no plus sign).
+3. Set bot name, owner name, prefix, language, mode and separate session/data directories.
+4. From this directory run `npm install`, then `npm test`, then `npm start`.
+5. Scan the QR code from WhatsApp > Linked devices.
 
-## Findings from source inspection
+Never share or commit `sessions/`, `data/`, `.env`, or a real settings file containing private credentials. The included starter owner number is intentionally blank; startup refuses to connect until configured.
 
-### Plugin systems
-- HIROBOT: recursive file discovery, dynamic imports, plugin normalization, platform metadata and reload support in `lib/utils/plugins.js`.
-- NOX-BOT: command handling is tied to its global socket/runtime and per-sub-bot prefix cache; its loader and connection lifecycle are coupled to `index.js`.
-- PatrickMD: recursive ESM loading into a `Map`, command-name indexing, separate special-plugin imports and a global reload function.
+## Architecture
 
-### Message dispatch
-- HIROBOT dispatch includes custom prefixes, command-name validation, platform-aware plugin metadata, and pre-handler event processing.
-- NOX-BOT derives prefix behavior from global configuration and sub-bot session folders; its handler also relies on global database state.
-- PatrickMD resolves group admin state and owner status before command dispatch; passive listeners run separately from prefixed commands.
+- `core/config.js`: validated per-instance configuration.
+- `core/plugin-registry.js`: recursive ESM plugin discovery, command/alias collision checks.
+- `core/permissions.js`: owner and group-admin checks; `fromMe` is not treated as proof of ownership.
+- `core/dispatcher.js`: prefix parsing and permission-aware dispatch.
+- `adapters/baileys/provider.js`: isolated Baileys connection, auth persistence, QR output and message normalization.
+- `runtime.js`: composes provider, registry, permissions and dispatcher.
+- `plugins/core/`: built-in commands.
+- `tests/`: automated unit tests.
 
-### Persistence
-- HIROBOT routes through its own database module and SQL abstraction.
-- NOX-BOT initializes LowDB JSON storage and also includes MongoDB/SQLite dependencies.
-- PatrickMD currently stores a small JSON database using a temporary file followed by rename.
+## Library decision
 
-### Risks to resolve before migration
-1. Baileys forks may differ in event names, message structures, auth state and media helpers.
-2. Plugin modules may depend on globals and helper methods that do not exist in another source runtime.
-3. Some plugins execute side effects at import time; loading them in a shared process without isolation is unsafe.
-4. Owner identity, prefixes, session directories, channel URLs and API settings must be instance-scoped—not global shared state.
-5. A plugin must not gain owner privileges merely because a source handler used `fromMe` or a global owner list.
-6. Third-party API credentials must remain outside source control; placeholders are not runtime credentials.
+The runtime pins the upstream `@whiskeysockets/baileys@6.7.24` interface instead of inheriting a fork's behavior. The three original projects use different forks/versions, so their plugins are not assumed to be drop-in compatible. Provider replacement remains isolated behind `adapters/baileys/`.
 
-## Target structure
+## Migration policy
 
-```text
-UNIFIED-BOT/
-  settings.js                 # The only per-instance customization file
-  core/
-    config.js                 # Config validation and immutable runtime config
-    dispatcher.js             # Message routing (planned)
-    plugin-registry.js        # Plugin discovery/registration (planned)
-    permissions.js            # Owner/admin/premium checks (planned)
-    menu/
-      renderer.js             # Unified menu renderer (planned)
-  adapters/
-    baileys/
-      contract.js             # Provider interface (planned)
-      provider.js             # Selected Baileys provider (after compatibility tests)
-  plugins/
-    core/                     # First-party core commands
-    imported/                 # Reviewed and adapted source plugins
-  data/
-  sessions/
-  tests/
-```
+The source review found 97 HIROBOT plugin files, 158 NOX-BOT plugin files and 305 PatrickMD plugin files. Their handlers depend on different global variables, helper APIs, database layouts and message wrappers. They are catalogued for manual migration; copying them wholesale would create broken commands and unsafe privilege assumptions. Each migrated command must declare its metadata and use the unified `execute({ message, args, reply, config, permissions, context })` contract.
 
-## Menu decision
+Do not migrate adult-content, privacy-invasive, credential-harvesting, bulk-messaging or shell-execution features. No such features are enabled in this starter.
 
-The unified menu will use:
-- NOX-BOT's category-first interactive navigation as the visual direction.
-- HIROBOT's configurable templates and placeholders as the rendering model.
-- PatrickMD's concise runtime/system/user metadata as optional information cards.
+## Menu
 
-The menu must always have a plain-text fallback if interactive message support or media upload fails. Remote video is optional, never required for the menu to work.
+The menu uses a clean category-first text layout. It does not depend on remote videos, downloaded media or WhatsApp interactive-message support, so it has a plain-text fallback by design.
 
-## Non-negotiable instance identity
+## Tests
 
-- Developer label: `Amin Saad` (fixed in code).
-- Contact label: `@System.Fail` (fixed in code).
-- Bot name, owner details, prefix, language, mode, sticker metadata and channel details are instance settings.
-
-## Next implementation gates
-
-1. Finish command inventory and dependency mapping.
-2. Select and pin one Baileys provider after API compatibility checks.
-3. Implement config validation and runtime isolation.
-4. Implement the plugin contract and dispatcher.
-5. Adapt plugins in small batches with tests; never bulk-copy source plugins.
-6. Add persistence migration and session lifecycle tests.
-7. Run smoke tests before preparing any release.
-
-No original extracted source file is modified by this workspace.
+`npm test` runs the local unit suite. GitHub Actions runs syntax checks and tests on changes to this folder.
