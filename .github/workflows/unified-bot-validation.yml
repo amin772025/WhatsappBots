@@ -28,3 +28,13 @@ jobs:
         run: npm run check
       - name: Unit tests
         run: npm test
+
+      - name: Package standalone bot ZIP
+        run: zip -r ../Amin-Unified-WhatsApp-Bot.zip . -x "node_modules/*" "sessions/*" "data/*" "settings.js" "*.log"
+      - name: Upload standalone bot ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Amin-Unified-WhatsApp-Bot
+          path: Amin-Unified-WhatsApp-Bot.zip
+          if-no-files-found: error
+          retention-days: 30
