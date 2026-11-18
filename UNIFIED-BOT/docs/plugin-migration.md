@@ -4,18 +4,18 @@ The three original codebases remain untouched. Of 560 discovered plugin source f
 
 ## Implemented in the unified runtime
 
-The current folder contains 67 independently implemented plugins:
+The current folder contains 69 independently implemented plugins:
 - Core and information: menu/help, ping, owner, runtime, stats, profile, quote, joke, fact, report, persistent mode/prefix/name/language controls.
 - Group management: group info/link, add/remove, kick, promote/demote, rename/description, open/close, revoke link, anti-link, welcome and custom welcome text.
 - Utilities and media: calculator, reverse, Base64 encode/decode, UUID, dictionary, translation, QR image, green text (`brat`) sticker, image sticker and PNG conversion.
 - Games: dice, coin flip, 8-ball, rock-paper-scissors, choose, trivia, arithmetic challenge, word scramble, daily rewards, work cooldown, balance and leaderboard.
 - Group extras: group ID, admin list, admin-only member mentions/hidetag, and persistent group rules.
 - Knowledge and utility extras: short supplications/remembrance, Asma ul Husna, inspirational quotes, short URL, server diagnostics and Cairo-local date/time.
-- Public reference tools: weather, Wikipedia summary.
+- Public reference tools: weather, Wikipedia summary.\n- Developer search: public GitHub repository search and npm package search (no API key; subject to public rate limits).
 
 ## Archived source files and migration status
 
-The 558 archived source files are now present in `source-archive/` for later inspection. Their presence does not mean they have been ported or are ready to run. Only the 67 plugins in `plugins/core/` are currently loaded by the runtime.
+The 558 archived source files are now present in `source-archive/` for later inspection. Their presence does not mean they have been ported or are ready to run. Only the 69 plugins in `plugins/core/` are currently loaded by the runtime.
 
 ## Why the other source plugins are not imported automatically
 
