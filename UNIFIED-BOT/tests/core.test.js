@@ -10,6 +10,7 @@ import { normalizeIncomingMessage, extractMessageText } from "../adapters/bailey
 import { createRuntime } from "../runtime.js";
 import { targetJid, protectGroupTarget } from "../core/group-actions.js";
 import addPlugin from "../plugins/core/add.js";
+import bratPlugin from "../plugins/core/brat.js";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -127,9 +128,34 @@ test("group command plugins are registered and require admin privileges", async 
   }
   assert.equal(registry.resolve("mute")?.id, "groupclose");
   assert.equal(registry.resolve("unmute")?.id, "groupopen");
-  assert.equal(registry.size, 66);
+  assert.equal(registry.resolve("brat")?.id, "brat");
+  assert.equal(registry.size, 67);
 });
 
+
+
+test("brat command creates a WebP sticker from bounded text", async () => {
+  let sent;
+  const replies = [];
+  await bratPlugin.execute({
+    args: ["hello", "world"],
+    message: { chatId: "chat", raw: {} },
+    reply: async value => replies.push(value),
+    context: { runtime: { provider: { socket: {
+      async sendMessage(chatId, payload) { sent = { chatId, payload }; }
+    } } } }
+  });
+  assert.equal(sent.chatId, "chat");
+  assert.equal(sent.payload.sticker[0], 0x52);
+  assert.equal(sent.payload.sticker.toString("ascii", 1, 4), "IFF");
+  await bratPlugin.execute({
+    args: [],
+    message: { chatId: "chat", raw: {} },
+    reply: async value => replies.push(value),
+    context: { runtime: { provider: { socket: { async sendMessage() {} } } } }
+  });
+  assert.match(replies.at(-1), /Usage/);
+});
 
 test("group add command requires bot admin and calls Baileys participant add", async () => {
   let call;
