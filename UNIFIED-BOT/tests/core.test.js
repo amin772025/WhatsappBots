@@ -8,7 +8,10 @@ import { renderMenu } from "../core/menu/renderer.js";
 import { assertWhatsAppProvider } from "../adapters/baileys/contract.js";
 import { normalizeIncomingMessage, extractMessageText } from "../adapters/baileys/provider.js";
 import { createRuntime } from "../runtime.js";
-import { targetJid } from "../core/group-actions.js";
+import { targetJid, protectGroupTarget } from "../core/group-actions.js";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 
 const config = loadConfig({
   botName: "Test Bot", ownerName: "Owner", ownerNumber: "201000000000",
@@ -125,4 +128,51 @@ test("group target resolver supports mentions, quotes and validated phone number
   assert.equal(targetJid({ quotedParticipantJid: "456@lid" }, []), "456@lid");
   assert.equal(targetJid({}, ["+201000000000"]), "201000000000@s.whatsapp.net");
   assert.throws(() => targetJid({}, ["123"]), /Reply to a member/);
+});
+
+test("owner-only runtime controls persist and private mode takes effect immediately", async () => {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), "amin-runtime-settings-"));
+  const runtimeConfig = loadConfig({ ...config, dataDir: directory, sessionDir: path.join(directory, "session") });
+  const makeProvider = () => {
+    let receive;
+    const sent = [];
+    return {
+      sent,
+      async connect() {},
+      async disconnect() {},
+      async sendText(chatId, text) { sent.push({ chatId, text }); },
+      async sendMessage(chatId, content) { sent.push({ chatId, content }); },
+      onMessage(listener) { receive = listener; return () => {}; },
+      onParticipants() {},
+      receive(message) { return receive(message); }
+    };
+  };
+  try {
+    const provider = makeProvider();
+    const runtime = await createRuntime({ config: runtimeConfig, provider });
+    await provider.receive({ text: ".setprefix !", senderNumber: config.ownerNumber, senderJid: "201000000000@s.whatsapp.net", chatId: "owner-chat", isGroup: false });
+    assert.equal(runtime.config.prefix, "!");
+    await provider.receive({ text: "!mode private", senderNumber: config.ownerNumber, senderJid: "201000000000@s.whatsapp.net", chatId: "owner-chat", isGroup: false });
+    assert.equal(runtime.config.mode, "private");
+    const before = provider.sent.length;
+    await provider.receive({ text: "!ping", senderNumber: "201111111111", senderJid: "201111111111@s.whatsapp.net", chatId: "other-chat", isGroup: false });
+    assert.equal(provider.sent.length, before);
+
+    const secondProvider = makeProvider();
+    const secondRuntime = await createRuntime({ config: runtimeConfig, provider: secondProvider });
+    assert.equal(secondRuntime.config.prefix, "!");
+    assert.equal(secondRuntime.config.mode, "private");
+    await runtime.stop();
+    await secondRuntime.stop();
+  } finally {
+    await fs.rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("group moderation target protection blocks owner, bot and self", () => {
+  const message = { senderJid: "201111111111@s.whatsapp.net", senderNumber: "201111111111" };
+  const context = { runtime: { provider: { socket: { user: { id: "201222222222:1@s.whatsapp.net" } } } } };
+  assert.throws(() => protectGroupTarget("201000000000@s.whatsapp.net", message, config, context), /owner is protected/);
+  assert.throws(() => protectGroupTarget(message.senderJid, message, config, context), /own account/);
+  assert.throws(() => protectGroupTarget("201222222222@s.whatsapp.net", message, config, context), /bot account is protected/);
 });
