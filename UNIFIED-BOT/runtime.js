@@ -38,7 +38,7 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
       ].filter(Boolean);
       const participant = metadata?.participants?.find(item =>
         identities.includes(item.id) ||
-        (message.senderNumber && String(item.phoneNumber || "").replace(/\\D/g, "") === message.senderNumber)
+        (message.senderNumber && String(item.phoneNumber || "").replace(/\D/g, "") === message.senderNumber)
       );
       message.senderIsAdmin = Boolean(participant?.admin);
     }
