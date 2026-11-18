@@ -7,6 +7,8 @@ test("arithmetic evaluator respects precedence and parentheses", () => {
   assert.equal(evaluateArithmetic("(2 + 3) * 4"), 20);
   assert.equal(evaluateArithmetic("-5 + 2.5"), -2.5);
   assert.equal(evaluateArithmetic("10 % 4"), 2);
+  assert.equal(evaluateArithmetic("3."), 3);
+  assert.equal(evaluateArithmetic(".5 * 2"), 1);
 });
 
 test("arithmetic evaluator rejects code, invalid tokens and division by zero", () => {
