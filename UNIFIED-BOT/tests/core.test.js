@@ -7,6 +7,7 @@ import { createDispatcher } from "../core/dispatcher.js";
 import { renderMenu } from "../core/menu/renderer.js";
 import { assertWhatsAppProvider } from "../adapters/baileys/contract.js";
 import { normalizeIncomingMessage, extractMessageText } from "../adapters/baileys/provider.js";
+import { createRuntime } from "../runtime.js";
 
 const config = loadConfig({
   botName: "Test Bot", ownerName: "Owner", ownerNumber: "201000000000",
@@ -79,4 +80,23 @@ test("Baileys message normalization handles text and refuses to treat LID as a p
   assert.equal(normalized.text, ".ping");
   assert.equal(normalized.isGroup, true);
   assert.equal(extractMessageText({ message: { conversation: "hello" } }), "hello");
+});
+
+test("runtime loads built-in plugins and dispatches menu and ping through an injected provider", async () => {
+  let receive;
+  const sent = [];
+  const fakeProvider = {
+    socket: null,
+    async connect() {},
+    async disconnect() {},
+    async sendText(chatId, text) { sent.push({ chatId, text }); },
+    onMessage(listener) { receive = listener; return () => {}; }
+  };
+  const runtime = await createRuntime({ config, provider: fakeProvider });
+  assert.equal(runtime.registry.resolve("menu")?.id, "menu");
+  assert.equal(runtime.registry.resolve("ping")?.id, "ping");
+  await receive({ text: ".menu", senderNumber: "201000000000", isGroup: false, chatId: "chat" });
+  assert.match(sent.at(-1).text, /General/);
+  await receive({ text: ".ping", senderNumber: "201000000000", isGroup: false, chatId: "chat" });
+  assert.match(sent.at(-1).text, /Pong/);
 });
