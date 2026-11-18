@@ -45,6 +45,17 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
       const botParticipant = metadata?.participants?.find(item => botIds.includes(item.id));
       message.botIsAdmin = Boolean(botParticipant?.admin);
     }
+    if (message.isGroup && message.text && !permissions.isOwner(message) && !message.senderIsAdmin) {
+      const chatSettings = store.read().chats?.[message.chatId] || {};
+      const hasLink = /(?:https?:\\/\\/|www\\.|chat\\.whatsapp\\.com\\/)/i.test(message.text);
+      if (chatSettings.antilink && hasLink && message.botIsAdmin && message.raw?.key) {
+        try {
+          await wa.socket.sendMessage(message.chatId, { delete: message.raw.key });
+          await wa.sendText(message.chatId, "Links are disabled in this group.");
+        } catch (error) { console.error("[anti-link]", error); }
+        return;
+      }
+    }
     const result = await dispatch(message, { runtime });
     if (result.status === "executed" || result.status === "unknown-command") {
       const userKey = message.senderNumber || message.senderJid;
@@ -79,5 +90,19 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
     async start() { await wa.connect(); },
     async stop() { await store.flush(); await wa.disconnect(); }
   };
+  wa.onParticipants?.(async update => {
+    if (update.action !== "add") return;
+    const chatSettings = store.read().chats?.[update.id] || {};
+    if (!chatSettings.welcomeEnabled) return;
+    const metadata = await wa.socket?.groupMetadata(update.id).catch(() => null);
+    const groupName = String(metadata?.subject || "this group").slice(0, 100);
+    const template = String(chatSettings.welcomeTemplate || "Welcome {user} to {group}!");
+    for (const participant of (update.participants || []).slice(0, 10)) {
+      const user = "@" + String(participant).split("@")[0].split(":")[0];
+      const text = template.replaceAll("{user}", user).replaceAll("{group}", groupName);
+      await wa.sendText(update.id, text);
+    }
+  });
+
   return runtime;
 }
