@@ -22,11 +22,11 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (66 plugins)
+## Current command set (67 plugins)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`
-- Tools: `calc`, `reverse`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
+- Tools: `calc`, `reverse`, `brat`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
 - Games and virtual rewards: `8ball`, `coin`, `dice`, `rps`, `daily`, `work`, `balance`, `top`
 - Owner controls: `mode`, `setprefix`, `setbotname`, `setlang` (owner-only; changes persist)
 - Group extras: `idgc`, `listadmin`, `tagall`, `hidetag`, `setrules`, `rules`
@@ -59,7 +59,7 @@ Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Gro
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
 
 ## Source compatibility and exclusions
-The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 66 commands in this folder are implemented against the new plugin contract and do not import legacy globals.
+The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 67 commands in this folder are implemented against the new plugin contract and do not import legacy globals.
 
 Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define` and `translate` are public third-party services and may change or apply their own limits.
 
