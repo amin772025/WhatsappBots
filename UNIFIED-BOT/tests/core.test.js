@@ -129,7 +129,7 @@ test("group command plugins are registered and require admin privileges", async 
   assert.equal(registry.resolve("mute")?.id, "groupclose");
   assert.equal(registry.resolve("unmute")?.id, "groupopen");
   assert.equal(registry.resolve("brat")?.id, "brat");
-  assert.equal(registry.size, 69);
+  assert.equal(registry.size, 71);
   assert.equal(registry.resolve("gh")?.id, "github");
   assert.equal(registry.resolve("npmsearch")?.id, "npm");
 });
