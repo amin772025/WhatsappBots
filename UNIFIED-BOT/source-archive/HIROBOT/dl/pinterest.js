@@ -1,0 +1,371 @@
+import { flowToDiscord, renderGrid } from '../../lib/package/discord/payload.js'
+import fs from 'fs'
+import { tmpdir } from 'os'
+import { join } from 'path'
+import { execFile } from 'child_process'
+import { promisify } from 'util'
+const execFileAsync = promisify(execFile)
+const upload = global.scraper.upload.default
+const {
+  pinterest,
+  gifToMp4,
+  getPinterestHLS,
+  formatNumber,
+  mergeVideoAudio,
+  isPinterestUrl,
+  detectMode,
+  extractMediaFromPin
+} = global.scraper.pinterest
+
+if (!global.pinterestSearchState) global.pinterestSearchState = {}
+
+const searchStateTtl = 15 * 60 * 1000
+
+function cleanupSearchState() {
+  const now = Date.now()
+  for (const key of Object.keys(global.pinterestSearchState)) {
+    if (now - global.pinterestSearchState[key].timestamp > searchStateTtl) {
+      delete global.pinterestSearchState[key]
+    }
+  }
+}
+
+const escapeHtml = (str = '') => String(str)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+
+function localImgSrc(file) {
+  return `data:image/jpeg;base64,${fs.readFileSync(file).toString('base64')}`
+}
+
+function buildPreviewHtml(items) {
+  const typeLabel = { gif: 'GIF', video: 'VIDEO' }
+  const cells = items.map((item, i) => `
+    <div class="cell">
+      <img src="${localImgSrc(item.localPath)}" alt="${i + 1}">
+      <span class="num">${i + 1}</span>
+      ${typeLabel[item.type] ? `<span class="tag">${typeLabel[item.type]}</span>` : ''}
+    </div>`).join('')
+
+  return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { padding: 8px; font-family: sans-serif; background: transparent; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .cell { position: relative; aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; background: rgba(128,128,128,.2); }
+  .cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .num { position: absolute; top: 6px; left: 6px; min-width: 24px; padding: 2px 7px; border-radius: 12px; background: rgba(0,0,0,.65); color: #fff; font-size: 12px; font-weight: 700; text-align: center; }
+  .tag { position: absolute; bottom: 6px; right: 6px; padding: 2px 6px; border-radius: 6px; background: rgba(230,0,35,.9); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .5px; }
+</style>
+</head>
+<body>
+  <div class="grid">${cells}
+  </div>
+</body>
+</html>`
+}
+
+async function sendMedia(conn, chatId, quoted, data, fileName, caption) {
+  if (quoted?.platform === 'discord') {
+    const kind = /\.(mp4|webm|mov)$/i.test(fileName) ? 'video' : 'image'
+    return conn.discord(chatId, { [kind]: data, fileName, text: caption })
+  }
+  return conn.sendFile(chatId, data, fileName, caption, quoted)
+}
+
+async function downloadItem(conn, chatId, quoted, item, caption) {
+  if (item.type === 'image') {
+    await sendMedia(conn, chatId, quoted, item.rawUrl, 'pinterest.jpg', caption)
+    return
+  }
+
+  if (item.type === 'gif') {
+    const videoPath = await gifToMp4(item.rawUrl)
+    try {
+      await sendMedia(conn, chatId, quoted, fs.readFileSync(videoPath), 'pinterest.mp4', caption)
+    } finally {
+      fs.unlinkSync(videoPath)
+    }
+    return
+  }
+
+  if (item.type === 'video') {
+    const hls = await getPinterestHLS(item.rawUrl)
+    const best = hls?.qualities?.at(-1)
+    if (!best) throw new Error('No video quality available.')
+    const output = join(tmpdir(), `pin_dl_${Date.now()}.mp4`)
+    try {
+      await mergeVideoAudio(best.url, hls.audio, output)
+      await sendMedia(conn, chatId, quoted, fs.readFileSync(output), 'pinterest.mp4', caption)
+    } finally {
+      if (fs.existsSync(output)) fs.unlinkSync(output)
+    }
+    return
+  }
+
+  throw new Error('Unknown item type.')
+}
+
+let handler = async (m, { conn, args: rawArgs, text, command, platform }) => {
+  const args = platform === 'discord' ? String(text || '').trim().split(/\s+/).filter(Boolean) : rawArgs
+  if (!args[0]) throw `Usage:\n\n*Download by URL:*\n.pin https://pinterest.com/pin/xxx\n.pin https://pin.it/xxx\n\n*Search:*\n.pin <keyword>\n.pin video <keyword>\n.pin image <keyword>\n.pin gif <keyword>`
+
+  const firstArg = args[0]
+
+  if (firstArg === 'get') {
+    const token = args[1]
+    const index = Number(args[2])
+    const state = global.pinterestSearchState[token]
+    if (!state) throw 'This search result has expired, please search again.'
+    const item = state.items[index]
+    if (!item) throw 'Item not found.'
+
+    await m.react('⬇️')
+    const caption = item.title ? `Pinterest — ${item.title}` : `Pinterest — ${state.query}`
+    try {
+      await downloadItem(conn, m.chat, m, item, caption)
+      await m.react('✅')
+    } catch (error) {
+      await m.react('❌')
+      throw `Failed to download: ${error.message || error}`
+    }
+    return
+  }
+
+  if (isPinterestUrl(firstArg)) {
+    await m.reply('Fetching pin info...')
+
+    const downloadResult = await pinterest.download(firstArg)
+    if (!downloadResult.status) {
+      throw downloadResult.result.message
+    }
+
+    const result = downloadResult.result
+    const media = result.media_urls[0]
+    const title = result.title || ""
+    const desc = result.description || ""
+    const creator = result.uploader.full_name || result.uploader.username || ""
+    const saves = formatNumber(result.statistics.saves || 0)
+
+    const infoText = `Pinterest Pin\n${title ? `- Title: ${title}\n` : ''}${desc ? `- Description: ${desc}\n` : ''}- Creator: ${creator}\n- Saves: ${saves}`
+
+    if (media.type === 'gif' || media.url?.toLowerCase().includes('.gif')) {
+      try {
+        const videoPath = await gifToMp4(media.url)
+        await sendMedia(conn, m.chat, m, fs.readFileSync(videoPath), 'converted.mp4', infoText)
+        fs.unlinkSync(videoPath)
+        return
+      } catch (error) {
+        throw `Failed to convert GIF to video: ${error.message}`
+      }
+    }
+
+    if (media.type === 'image') {
+      await sendMedia(conn, m.chat, m, media.url, 'pinterest.jpg', infoText)
+      return
+    }
+
+    if (media.type === 'video') {
+      const hls = await getPinterestHLS(media.url)
+      if (!hls || !hls.qualities.length) throw 'Failed to get video quality.'
+
+      const qualityList = hls.qualities.map((q, i) => `${i + 1}. ${q.resolution}`).join('\n')
+      const caption = `Pinterest Video\n${title ? `- Title: ${title}\n` : ''}${desc ? `- Description: ${desc}\n` : ''}- Creator: ${creator}\n- Saves: ${saves}\n\nChoose Resolution:\n${qualityList}`
+
+      if (platform === 'discord') {
+        const best = hls.qualities.at(-1)
+        const output = join(tmpdir(), `pin_dl_${Date.now()}.mp4`)
+        try {
+          await mergeVideoAudio(best.url, hls.audio, output)
+          await conn.discord(m.chat, { video: fs.readFileSync(output), fileName: 'pinterest.mp4', text: infoText })
+        } finally {
+          if (fs.existsSync(output)) fs.unlinkSync(output)
+        }
+        return
+      }
+
+      const sent = await conn.reply(m.chat, caption, m)
+
+      if (!global.pinterestDlState) global.pinterestDlState = {}
+      global.pinterestDlState[m.sender] = {
+        hls,
+        title,
+        desc,
+        creator,
+        saves,
+        messageId: sent.key.id,
+        timestamp: Date.now()
+      }
+      return
+    }
+    return
+  }
+
+  const modeKeys = ['vid', 'video', 'gif', 'gifs', 'img', 'image', 'images']
+  const mode = detectMode(args)
+  const queryArgs = modeKeys.includes(args[0]?.toLowerCase()) ? args.slice(1) : args
+  const query = queryArgs.join(' ')
+  if (!query) throw 'Please enter a search keyword!'
+
+  const modeLabel = { all: 'All', video: 'Video', gif: 'GIF', image: 'Image' }
+
+  const searchResult = await pinterest.search(query, 50)
+
+  if (!searchResult.status) {
+    throw `No results found for: *${query}*`
+  }
+
+  const pins = searchResult.result.pins
+
+  const filteredPins = pins.filter(pin => {
+    const medias = extractMediaFromPin(pin)
+    if (!medias) return false
+    if (mode === 'all') return true
+    if (mode === 'gif') {
+      return medias.some(m => m.type === 'gif' || m.isGif === true)
+    }
+    return medias.some(m => m.type === mode)
+  })
+
+  if (!filteredPins.length) throw `No ${mode} results found for: *${query}*`
+
+  const totalResult = filteredPins.length
+
+  const maxResults = platform === 'discord' ? 25 : 30
+
+  const shuffled = filteredPins
+    .sort(() => Math.random() - 0.5)
+    .slice(0, maxResults)
+
+  const items = []
+
+  for (const pin of shuffled) {
+    const medias = extractMediaFromPin(pin)
+    if (!medias) continue
+
+    for (const media of medias) {
+      if ((media.type === 'gif' || media.isGif === true) && (mode === 'all' || mode === 'gif')) {
+        items.push({ type: 'gif', rawUrl: media.url, thumbUrl: media.thumbnailUrl, pinUrl: pin.pin_url, title: pin.title });
+      } else if (media.type === 'image' && mode !== 'video') {
+        items.push({ type: 'image', rawUrl: media.url, thumbUrl: media.thumbnailUrl, pinUrl: pin.pin_url, title: pin.title });
+      } else if (media.type === 'video' && mode !== 'image') {
+        items.push({ type: 'video', rawUrl: media.url, thumbUrl: media.thumbnailUrl, pinUrl: pin.pin_url, title: pin.title });
+      }
+    }
+  }
+
+  if (!items.length) throw `No ${mode} results found for: *${query}*`
+
+  if (platform === 'discord') items.splice(25)
+
+  await m.react('⏳')
+
+  const dir = fs.mkdtempSync(join(tmpdir(), 'pin_'))
+
+  try {
+    await global.scraper.pinterest.downloadPreviews(items, dir)
+
+    const readyItems = items.filter(item => item.localPath)
+    if (!readyItems.length) throw `Failed to load previews for: *${query}*`
+
+    cleanupSearchState()
+    const token = `${(m.sender || '').split('@')[0]}_${Date.now().toString(36)}`
+    global.pinterestSearchState[token] = { items: readyItems, query, mode, timestamp: Date.now() }
+
+    const typeLabel = { image: 'Image', gif: 'GIF', video: 'Video' }
+
+    const rows = readyItems.map((item, i) => ({
+      header: `${i + 1}. ${typeLabel[item.type] || 'Media'}`,
+      title: (item.title || query).slice(0, 60),
+      description: '',
+      id: `.${command} get ${token} ${i}`
+    }))
+
+    const caption = `- *Query:* ${query}\n- Mode: ${modeLabel[mode] || 'All'}\n- Result: ${totalResult}\n- Showing: ${readyItems.length}\n\nChoose the number you want to download.`
+
+    if (platform === 'discord') {
+      const chunks = [{ text: 'Select', sections: [{ rows: rows.slice(0, 25) }] }]
+      const cells = readyItems.map((item, i) => ({
+        number: i + 1,
+        src: localImgSrc(item.localPath),
+        tag: item.type === 'image' ? '' : (typeLabel[item.type] || '').toUpperCase()
+      }))
+      const image = await renderGrid(cells, { columns: 5, cell: 200 })
+      await conn.discord(m.chat, {
+        image,
+        fileName: 'pinterest.jpg',
+        text: caption.replace(/\*([^*\n]+)\*/g, '**$1**'),
+        ...flowToDiscord(chunks)
+      })
+      await m.react('✅')
+      return
+    }
+
+    await conn.aiRich()
+      .setTitle(`Pinterest — ${query}`)
+      .addHtml(buildPreviewHtml(readyItems))
+      .send(m.chat, { quoted: m })
+
+    await conn.sendButton(m.chat, {
+      text: caption,
+      footer: 'Pinterest',
+      nativeFlow: [{ text: 'Select', sections: [{ rows }] }]
+    }, m)
+
+    await m.react('✅')
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true })
+  }
+}
+
+handler.before = async (m, { conn }) => {
+  if (!m.quoted || !m.quoted.id) return
+  const state = global.pinterestDlState?.[m.sender]
+  if (!state || Date.now() - state.timestamp > 300000) return
+
+  if (state.messageId !== m.quoted.id) return
+
+  const choice = parseInt(m.text)
+  if (isNaN(choice) || choice < 1 || choice > state.hls.qualities.length) return
+
+  try {
+    const { hls, title, desc, creator, saves } = state
+    const selected = hls.qualities[choice - 1]
+
+    const infoText = `${title ? `- Title: ${title}\n` : ''}${desc ? `- Description: ${desc}\n` : ''}- Creator: ${creator}\n- Saves: ${saves}\n- Resolution: ${selected.resolution}`
+
+    await m.react(`⬇️`)
+    const output = `/tmp/pin_${Date.now()}.mp4`
+    await mergeVideoAudio(selected.url, hls.audio, output)
+
+    await sendMedia(conn, m.chat, m, fs.readFileSync(output), 'pinterest.mp4', infoText)
+    fs.unlinkSync(output)
+    await m.reply('Video downloaded successfully!')
+  } catch (err) {
+    await m.reply(`Failed: ${err.message || err}`)
+  }
+
+  delete global.pinterestDlState[m.sender]
+  return true
+}
+
+handler.help = [
+  'pinterest <url|keyword>',
+  { command: 'pinterest', name: 'text', description: 'Pin URL or search keyword (add video, image or gif first to filter)', type: 'string', required: true }
+]
+handler.tags = ['downloader']
+handler.command = ['pinterest', 'pint']
+handler.description = 'Search or download from Pinterest'
+handler.limit = true
+handler.ai = { risk: 'low', description: "search/download from pinterest" }
+
+handler.platform = { whatsapp: true, discord: true }
+
+export default handler
