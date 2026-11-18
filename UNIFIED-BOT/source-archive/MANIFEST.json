@@ -1,0 +1,14 @@
+{
+  "archive": "UNIFIED-BOT/source-archive/",
+  "status": "inactive-source-only",
+  "executable": false,
+  "runtimeLoadsArchive": false,
+  "totalPluginFiles": 518,
+  "bySource": {
+    "HIROBOT": 91,
+    "NOX": 153,
+    "PatrickMD": 274
+  },
+  "implementedUnifiedPlugins": 67,
+  "note": "Archived copies are preserved for review. They are not ported, registered, imported, or executed. Original extracted source trees remain untouched."
+}
