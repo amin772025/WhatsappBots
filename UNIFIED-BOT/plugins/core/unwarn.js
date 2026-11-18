@@ -1,7 +1,7 @@
 import { targetJid, protectGroupTarget } from "../../core/group-actions.js";
 
 export default {
-  id: "unwarn", command: "unwarn", category: "Group", adminOnly: true,
+  id: "unwarn", command: "unwarn", category: "Admin", adminOnly: true,
   description: "Remove the latest warning from a group member",
   async execute({ message, args, reply, context, config }) {
     if (!message.isGroup) return reply("This command only works inside a group.");
