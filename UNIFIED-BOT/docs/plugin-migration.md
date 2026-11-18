@@ -11,7 +11,6 @@ The current folder contains 74 independently implemented plugins:
 - Games: dice, coin flip, 8-ball, rock-paper-scissors, choose, trivia, arithmetic challenge, word scramble, daily rewards, work cooldown, balance and leaderboard.
 - Group extras: group ID, admin list, admin-only member mentions/hidetag, persistent group rules, and per-group warning records with warn/unwarn/list commands.
 - Knowledge and utility extras: short supplications/remembrance, Asma ul Husna, inspirational quotes, short URL, server diagnostics and Cairo-local date/time.
-- Public reference tools: weather, Wikipedia summary.\n- Discovery tools: safe-for-work anime metadata search through Jikan; song metadata and lyrics-page discovery through LRCLIB (the bot does not reproduce copyrighted song lyrics).\n- Developer search: public GitHub repository search and npm package search (no API key; subject to public rate limits).\n- Group moderation: persistent warning records with add, remove-latest, and lookup commands.
 
 ## Archived source files and migration status
 
