@@ -34,6 +34,7 @@ export function normalizeIncomingMessage(raw, socket) {
   const text = extractMessageText(raw);
   return {
     id: key.id || "",
+    displayName: String(raw?.pushName || ""),
     chatId,
     senderJid,
     senderNumber,
