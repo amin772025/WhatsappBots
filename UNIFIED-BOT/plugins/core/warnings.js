@@ -1,7 +1,7 @@
 import { targetJid } from "../../core/group-actions.js";
 
 export default {
-  id: "warnings", command: "warnings", category: "Group",
+  id: "warnings", command: "warnings", category: "Admin",
   description: "Show recorded warnings for a group member",
   async execute({ message, args, reply, context }) {
     if (!message.isGroup) return reply("This command only works inside a group.");
