@@ -129,7 +129,12 @@ test("group command plugins are registered and require admin privileges", async 
   assert.equal(registry.resolve("mute")?.id, "groupclose");
   assert.equal(registry.resolve("unmute")?.id, "groupopen");
   assert.equal(registry.resolve("brat")?.id, "brat");
-  assert.equal(registry.size, 71);
+  assert.equal(registry.size, 74);
+  assert.equal(registry.resolve("mal")?.id, "animesearch");
+  assert.equal(registry.resolve("songinfo")?.id, "lyrics");
+  assert.ok(registry.resolve("warn"));
+  assert.ok(registry.resolve("unwarn"));
+  assert.ok(registry.resolve("warnings"));
   assert.equal(registry.resolve("gh")?.id, "github");
   assert.equal(registry.resolve("npmsearch")?.id, "npm");
 });
