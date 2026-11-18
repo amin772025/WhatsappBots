@@ -47,7 +47,11 @@ test("menu has text fallback and groups commands", () => {
   registry.register({ command: "ping", category: "General", description: "Check status", execute() {} });
   const menu = renderMenu({ config, plugins: registry.list(), userName: "A", uptimeSeconds: 10 });
   assert.match(menu, /General/);
-  assert.match(menu, /\.ping/);
+  assert.match(menu, /menu General/);
+  const categoryMenu = renderMenu({ config, plugins: registry.list(), category: "general" });
+  assert.match(categoryMenu, /\.ping/);
+  const allMenu = renderMenu({ config, plugins: registry.list(), category: "all" });
+  assert.match(allMenu, /Check status/);
   assert.match(menu, /@System\.Fail/);
 });
 
