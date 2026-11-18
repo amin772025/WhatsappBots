@@ -35,7 +35,7 @@ const provider = createBaileysProvider({
 const runtime = await createRuntime({ config, provider });
 
 await runtime.start();
-console.log(`${config.botName} started. Prefix: ${config.prefix}`);
+console.log(`${runtime.config.botName} started. Prefix: ${runtime.config.prefix}`);
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, async () => {
