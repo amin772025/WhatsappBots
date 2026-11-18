@@ -6,6 +6,7 @@ import { PluginRegistry } from "../core/plugin-registry.js";
 import { createDispatcher } from "../core/dispatcher.js";
 import { renderMenu } from "../core/menu/renderer.js";
 import { assertWhatsAppProvider } from "../adapters/baileys/contract.js";
+import { normalizeIncomingMessage, extractMessageText } from "../adapters/baileys/provider.js";
 
 const config = loadConfig({
   botName: "Test Bot", ownerName: "Owner", ownerNumber: "201000000000",
@@ -19,6 +20,7 @@ test("config validates and freezes instance settings", () => {
   assert.equal(config.contactUsername, "@System.Fail");
   assert.ok(Object.isFrozen(config));
   assert.throws(() => loadConfig({ ...config, ownerNumber: "1" }), /ownerNumber/);
+  assert.throws(() => loadConfig({ ...config, ownerLink: "javascript:alert(1)" }), /HTTPS/);
 });
 
 test("registry resolves commands and aliases, rejects collisions", () => {
@@ -54,4 +56,23 @@ test("provider contract rejects incomplete implementations", () => {
   assert.equal(assertWhatsAppProvider({
     connect() {}, disconnect() {}, sendText() {}, onMessage() {}
   }).connect instanceof Function, true);
+});
+
+test("owner identity is based on configured phone number, not fromMe", () => {
+  const permissions = createPermissionService(config);
+  assert.equal(permissions.isOwner({ senderNumber: "201000000000", fromMe: false }), true);
+  assert.equal(permissions.isOwner({ senderNumber: "201111111111", fromMe: true }), false);
+});
+
+test("Baileys message normalization handles text and refuses to treat LID as a phone number", () => {
+  const raw = {
+    key: { remoteJid: "123@g.us", participant: "998877@lid", participantPn: "201222333444@s.whatsapp.net" },
+    message: { extendedTextMessage: { text: ".ping" } }
+  };
+  const normalized = normalizeIncomingMessage(raw, null);
+  assert.equal(normalized.chatId, "123@g.us");
+  assert.equal(normalized.senderNumber, "201222333444");
+  assert.equal(normalized.text, ".ping");
+  assert.equal(normalized.isGroup, true);
+  assert.equal(extractMessageText({ message: { conversation: "hello" } }), "hello");
 });
