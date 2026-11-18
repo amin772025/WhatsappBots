@@ -80,8 +80,8 @@ export default [
     async execute({ reply }) {
       return reply("📿 *أذكار مختصرة*\n\n• آية الكرسي.\n• سورة الإخلاص والفلق والناس.\n• سبحان الله.\n• الحمد لله.\n• الله أكبر.\n\nيمكنك قراءة الأذكار من مصحف أو مصدر موثوق للتأكد من النص والعدد.");
     }
-  }
-  ,{
+  },
+  {
     id: "src-nox-sysinfo",
     command: "sysinfo",
     aliases: ["systeminfo"],
@@ -94,7 +94,7 @@ export default [
       const total = os.totalmem();
       const free = os.freemem();
       const fmt = n => `${(n / 1024 / 1024).toFixed(1)} MB`;
-      return reply(`🖥️ *SYSTEM STATUS*\\nUptime: ${(process.uptime()/3600).toFixed(2)} hours\\nRAM used: ${fmt(total-free)} / ${fmt(total)}\\nNode heap: ${fmt(used.heapUsed)} / ${fmt(used.heapTotal)}\\nCPU cores: ${os.cpus().length}\\nPlatform: ${os.platform()} ${os.arch()}\\nNode: ${process.version}`);
+      return reply(`🖥️ *SYSTEM STATUS*\nUptime: ${(process.uptime()/3600).toFixed(2)} hours\nRAM used: ${fmt(total-free)} / ${fmt(total)}\nNode heap: ${fmt(used.heapUsed)} / ${fmt(used.heapTotal)}\nCPU cores: ${os.cpus().length}\nPlatform: ${os.platform()} ${os.arch()}\nNode: ${process.version}`);
     }
   },
   {
@@ -111,7 +111,7 @@ export default [
       const payload = await response.json();
       const times = payload?.data?.timings;
       if (!times) return reply("Prayer times are unavailable right now.");
-      return reply(`🕌 *مواقيت الصلاة — القاهرة*\\nالفجر: ${times.Fajr}\\nالظهر: ${times.Dhuhr}\\nالعصر: ${times.Asr}\\nالمغرب: ${times.Maghrib}\\nالعشاء: ${times.Isha}\\n\\nالمصدر: AlAdhan API`);
+      return reply(`🕌 *مواقيت الصلاة — القاهرة*\nالفجر: ${times.Fajr}\nالظهر: ${times.Dhuhr}\nالعصر: ${times.Asr}\nالمغرب: ${times.Maghrib}\nالعشاء: ${times.Isha}\n\nالمصدر: AlAdhan API`);
     }
   },
   {
@@ -126,7 +126,7 @@ export default [
       if (typeof socket?.groupFetchAllParticipating !== "function") return reply("The connected WhatsApp provider does not expose group listing.");
       const groups = await socket.groupFetchAllParticipating();
       const entries = Object.entries(groups || {}).map(([jid, group]) => `${group.subject || "Unnamed group"} — ${jid}`);
-      return reply(entries.length ? `*Joined groups (${entries.length})*\\n\\n${entries.slice(0, 60).join("\\n")}` : "No joined groups found.");
+      return reply(entries.length ? `*Joined groups (${entries.length})*\n\n${entries.slice(0, 60).join("\n")}` : "No joined groups found.");
     }
   }
 ];
