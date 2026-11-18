@@ -9,10 +9,6 @@
 // - extracted/PatrickMD/plugins/islamic/dzikir.js
 
 const pick = items => items[Math.floor(Math.random() * items.length)];
-const needsPrompt = (reply, command, args) => args.length
-  ? null
-  : reply(`Usage: .${command} <your question>`);
-
 export default [
   {
     id: "src-patrick-apakah",
@@ -55,11 +51,11 @@ export default [
     description: "Random short pantun, ported from PatrickMD.",
     async execute({ reply }) {
       const verses = [
-        "Jalan pagi melihat mentari\\nSinggah sebentar membeli jamu\\nTerus belajar setiap hari\\nPelan-pelan tercapai tujuanmu.",
-        "Burung kecil terbang ke taman\\nHinggap sebentar di atas dahan\\nJangan lelah mengejar impian\\nUsaha baik membawa perubahan.",
-        "Pergi ke pasar membeli mangga\\nPulangnya lewat tepi telaga\\nJaga semangat dalam berkarya\\nKebaikan tumbuh bersama-sama."
+        "Jalan pagi melihat mentari\nSinggah sebentar membeli jamu\nTerus belajar setiap hari\nPelan-pelan tercapai tujuanmu.",
+        "Burung kecil terbang ke taman\nHinggap sebentar di atas dahan\nJangan lelah mengejar impian\nUsaha baik membawa perubahan.",
+        "Pergi ke pasar membeli mangga\nPulangnya lewat tepi telaga\nJaga semangat dalam berkarya\nKebaikan tumbuh bersama-sama."
       ];
-      return reply(`📜 *PANTUN*\\n\\n${pick(verses)}`);
+      return reply(`📜 *PANTUN*\n\n${pick(verses)}`);
     }
   },
   {
@@ -69,7 +65,7 @@ export default [
     category: "Info",
     description: "Displays basic bot usage rules, ported from PatrickMD.",
     async execute({ reply, config }) {
-      return reply(`📜 *BOT RULES — ${config.botName}*\\n\\n1. Jangan spam perintah.\\n2. Hormati anggota dan admin grup.\\n3. Gunakan fitur secara bertanggung jawab.\\n4. Fitur online bergantung pada layanan pihak ketiga.\\n5. Patuhi aturan grup dan hukum yang berlaku.`);
+      return reply(`📜 *BOT RULES — ${config.botName}*\n\n1. Jangan spam perintah.\n2. Hormati anggota dan admin grup.\n3. Gunakan fitur secara bertanggung jawab.\n4. Fitur online bergantung pada layanan pihak ketiga.\n5. Patuhi aturan grup dan hukum yang berlaku.`);
     }
   },
   {
@@ -79,7 +75,7 @@ export default [
     category: "Islamic",
     description: "Displays a short remembrance checklist, ported from PatrickMD.",
     async execute({ reply }) {
-      return reply("📿 *أذكار مختصرة*\\n\\n• آية الكرسي.\\n• سورة الإخلاص والفلق والناس.\\n• سبحان الله.\\n• الحمد لله.\\n• الله أكبر.\\n\\nيمكنك قراءة الأذكار من مصحف أو مصدر موثوق للتأكد من النص والعدد.");
+      return reply("📿 *أذكار مختصرة*\n\n• آية الكرسي.\n• سورة الإخلاص والفلق والناس.\n• سبحان الله.\n• الحمد لله.\n• الله أكبر.\n\nيمكنك قراءة الأذكار من مصحف أو مصدر موثوق للتأكد من النص والعدد.");
     }
   }
 ];
