@@ -3,7 +3,7 @@
   "sources": {
     "HIROBOT": {
       "javascriptFiles": 272,
-      "pluginFiles": 95,
+      "pluginFiles": 91,
       "pluginGroups": {
         "ai": [
           "extracted/HIROBOT/HIROBOT-main/plugins/ai/ai.js",
@@ -39,7 +39,6 @@
           "extracted/HIROBOT/HIROBOT-main/plugins/group/access.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/group/add.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/group/ban.js",
-          "extracted/HIROBOT/HIROBOT-main/plugins/group/fakemsg.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/group/grouplist.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/group/info.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/group/kick.js",
@@ -78,11 +77,9 @@
         "owner": [
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/backup.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/call.js",
-          "extracted/HIROBOT/HIROBOT-main/plugins/owner/exec.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/files.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/github.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/grep.js",
-          "extracted/HIROBOT/HIROBOT-main/plugins/owner/migratedb.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/restart.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/setpp.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/owner/sw.js"
@@ -115,18 +112,17 @@
           "extracted/HIROBOT/HIROBOT-main/plugins/tools/stabilize.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/tools/tinyurl.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/tools/upload.js",
-          "extracted/HIROBOT/HIROBOT-main/plugins/tools/viewonce.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/tools/wink.js"
         ]
       },
       "reviewStatus": "inventory only; not automatically imported",
       "migrationRule": "manual API, dependency, permission and safety review required",
       "sourcePluginFilesTotal": 97,
-      "cataloguedPluginFiles": 95
+      "cataloguedPluginFiles": 91
     },
     "NOX": {
       "javascriptFiles": 188,
-      "pluginFiles": 157,
+      "pluginFiles": 153,
       "pluginGroups": {
         "(root)": [
           "extracted/NOX-BOT/NOX-BOT/plugins/AI-انطق.js",
@@ -147,7 +143,6 @@
           "extracted/NOX-BOT/NOX-BOT/plugins/_antiprivate.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/_antispam.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/_antisubbots.js",
-          "extracted/NOX-BOT/NOX-BOT/plugins/_autoforward.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/_autoresponder.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/_cmdWithMedia.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/_fakes.js",
@@ -208,12 +203,9 @@
           "extracted/NOX-BOT/NOX-BOT/plugins/info-المطور.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/info-المطورين.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/kuro.js",
-          "extracted/NOX-BOT/NOX-BOT/plugins/lid.js",
-          "extracted/NOX-BOT/NOX-BOT/plugins/lid2.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/main-menu.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/owner-banuser.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/owner-crm.js",
-          "extracted/NOX-BOT/NOX-BOT/plugins/owner-exec2.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/owner-lisban.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/owner-restart.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/owner-unbanuser.js",
@@ -291,11 +283,11 @@
       "reviewStatus": "inventory only; not automatically imported",
       "migrationRule": "manual API, dependency, permission and safety review required",
       "sourcePluginFilesTotal": 158,
-      "cataloguedPluginFiles": 157
+      "cataloguedPluginFiles": 153
     },
     "PatrickMD": {
       "javascriptFiles": 319,
-      "pluginFiles": 298,
+      "pluginFiles": 274,
       "pluginGroups": {
         "(root)": [
           "extracted/PatrickMD/plugins/_afk.js",
@@ -336,20 +328,12 @@
           "extracted/PatrickMD/plugins/fun/alay.js",
           "extracted/PatrickMD/plugins/fun/apakah.js",
           "extracted/PatrickMD/plugins/fun/bisakah.js",
-          "extracted/PatrickMD/plugins/fun/bucin.js",
-          "extracted/PatrickMD/plugins/fun/cantikcek.js",
           "extracted/PatrickMD/plugins/fun/cewek.js",
           "extracted/PatrickMD/plugins/fun/cowok.js",
           "extracted/PatrickMD/plugins/fun/dadu.js",
-          "extracted/PatrickMD/plugins/fun/dare.js",
           "extracted/PatrickMD/plugins/fun/emot.js",
           "extracted/PatrickMD/plugins/fun/fakta.js",
-          "extracted/PatrickMD/plugins/fun/gantengcek.js",
           "extracted/PatrickMD/plugins/fun/hilih.js",
-          "extracted/PatrickMD/plugins/fun/jadian-putus.js",
-          "extracted/PatrickMD/plugins/fun/jadian-terima.js",
-          "extracted/PatrickMD/plugins/fun/jadian-tolak.js",
-          "extracted/PatrickMD/plugins/fun/jadian.js",
           "extracted/PatrickMD/plugins/fun/jodoh.js",
           "extracted/PatrickMD/plugins/fun/joke.js",
           "extracted/PatrickMD/plugins/fun/kapankah.js",
@@ -360,7 +344,6 @@
           "extracted/PatrickMD/plugins/fun/rate.js",
           "extracted/PatrickMD/plugins/fun/reverse.js",
           "extracted/PatrickMD/plugins/fun/suit.js",
-          "extracted/PatrickMD/plugins/fun/truth.js",
           "extracted/PatrickMD/plugins/fun/zodiak.js"
         ],
         "game": [
@@ -454,10 +437,6 @@
         "maker": [
           "extracted/PatrickMD/plugins/maker/applemusic.js",
           "extracted/PatrickMD/plugins/maker/bratfoto.js",
-          "extracted/PatrickMD/plugins/maker/fakecall.js",
-          "extracted/PatrickMD/plugins/maker/fakegithub.js",
-          "extracted/PatrickMD/plugins/maker/fakenotif.js",
-          "extracted/PatrickMD/plugins/maker/faketiktok.js",
           "extracted/PatrickMD/plugins/maker/igprofile.js",
           "extracted/PatrickMD/plugins/maker/iqc.js",
           "extracted/PatrickMD/plugins/maker/meledak.js",
@@ -502,20 +481,14 @@
           "extracted/PatrickMD/plugins/owner/bc.js",
           "extracted/PatrickMD/plugins/owner/block.js",
           "extracted/PatrickMD/plugins/owner/botsetting.js",
-          "extracted/PatrickMD/plugins/owner/broadcastgc.js",
           "extracted/PatrickMD/plugins/owner/clearban.js",
           "extracted/PatrickMD/plugins/owner/delowner.js",
-          "extracted/PatrickMD/plugins/owner/eval.js",
-          "extracted/PatrickMD/plugins/owner/exec.js",
-          "extracted/PatrickMD/plugins/owner/getdb.js",
-          "extracted/PatrickMD/plugins/owner/getfile.js",
           "extracted/PatrickMD/plugins/owner/getplugins.js",
           "extracted/PatrickMD/plugins/owner/join.js",
           "extracted/PatrickMD/plugins/owner/leave.js",
           "extracted/PatrickMD/plugins/owner/listban.js",
           "extracted/PatrickMD/plugins/owner/listgc.js",
           "extracted/PatrickMD/plugins/owner/mode.js",
-          "extracted/PatrickMD/plugins/owner/pushkontak.js",
           "extracted/PatrickMD/plugins/owner/randomreact.js",
           "extracted/PatrickMD/plugins/owner/reload.js",
           "extracted/PatrickMD/plugins/owner/restart.js",
@@ -568,11 +541,9 @@
           "extracted/PatrickMD/plugins/rpg/mypet.js",
           "extracted/PatrickMD/plugins/rpg/pet.js",
           "extracted/PatrickMD/plugins/rpg/profile.js",
-          "extracted/PatrickMD/plugins/rpg/rampok.js",
           "extracted/PatrickMD/plugins/rpg/sell.js",
           "extracted/PatrickMD/plugins/rpg/shop.js",
           "extracted/PatrickMD/plugins/rpg/slot2.js",
-          "extracted/PatrickMD/plugins/rpg/taruhan.js",
           "extracted/PatrickMD/plugins/rpg/tebus.js",
           "extracted/PatrickMD/plugins/rpg/top.js",
           "extracted/PatrickMD/plugins/rpg/transfer.js"
@@ -620,14 +591,11 @@
           "extracted/PatrickMD/plugins/tools/removebg.js",
           "extracted/PatrickMD/plugins/tools/rvo.js",
           "extracted/PatrickMD/plugins/tools/shorturl.js",
-          "extracted/PatrickMD/plugins/tools/spamngl.js",
           "extracted/PatrickMD/plugins/tools/ssweb.js",
-          "extracted/PatrickMD/plugins/tools/tempmail.js",
           "extracted/PatrickMD/plugins/tools/toimg.js",
           "extracted/PatrickMD/plugins/tools/topdf.js",
           "extracted/PatrickMD/plugins/tools/tourl.js",
           "extracted/PatrickMD/plugins/tools/tovid.js",
-          "extracted/PatrickMD/plugins/tools/tracknama.js",
           "extracted/PatrickMD/plugins/tools/tts.js",
           "extracted/PatrickMD/plugins/tools/uuid.js",
           "extracted/PatrickMD/plugins/tools/votech.js",
@@ -637,8 +605,8 @@
       "reviewStatus": "inventory only; not automatically imported",
       "migrationRule": "manual API, dependency, permission and safety review required",
       "sourcePluginFilesTotal": 305,
-      "cataloguedPluginFiles": 298
+      "cataloguedPluginFiles": 274
     }
   },
-  "note": "Inventory only. Entries that are unsuitable for a teen-safe general-purpose bot or raise privacy concerns are intentionally omitted. No legacy plugin code is imported automatically."
+  "note": "Inventory only. Privacy-invasive, adult, credential/file-extraction, arbitrary-code, spam, deceptive and gambling-related plugin paths are omitted. No legacy plugin code is imported automatically."
 }
