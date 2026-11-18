@@ -22,12 +22,13 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (44 plugins)
+## Current command set (48 plugins)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`
 - Tools: `calc`, `reverse`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
 - Games and virtual rewards: `8ball`, `coin`, `dice`, `rps`, `daily`, `work`, `balance`, `top`
+- Owner controls: `mode`, `setprefix`, `setbotname`, `setlang` (owner-only; changes persist)
 - Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`
 
 Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
@@ -49,7 +50,7 @@ Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Gro
 - `core/media.js`: bounded image/sticker conversion.
 - `adapters/baileys/provider.js`: Baileys connection, QR events, message normalization and group participant events.
 - `runtime.js`: plugin dispatch, anti-link moderation, welcome events and usage counters.
-- `plugins/core/`: the 44 reviewed built-in commands.
+- `plugins/core/`: the 48 reviewed built-in commands.
 
 ## Multi-instance use
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
@@ -60,4 +61,4 @@ The originals use three different Baileys forks, handler APIs, global variables 
 Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define` and `translate` are public third-party services and may change or apply their own limits.
 
 ## Validation
-GitHub Actions runs a recursive syntax check over all JavaScript files and the automated test suite on changes to this folder. The tests use a fake WhatsApp provider; they do not log in to a real WhatsApp account. Real-device pairing must be completed by the operator.
+GitHub Actions runs a recursive syntax check over all JavaScript files, the automated test suite, and packages a ZIP artifact (without your settings or WhatsApp session) on changes to this folder. The tests use a fake WhatsApp provider; they do not log in to a real WhatsApp account. Real-device pairing must be completed by the operator.
