@@ -56,13 +56,13 @@ The 100 offline utilities include text transformations and counters, URL/HTML/JS
 - `core/media.js`: bounded image/sticker conversion.
 - `adapters/baileys/provider.js`: Baileys connection, QR events, message normalization and group participant events.
 - `runtime.js`: plugin dispatch, anti-link moderation, welcome events and usage counters.
-- `plugins/core/`: the 85 implemented unified commands.
+- `plugins/core/`: the unified plugin modules, including the nine source-derived ports.
 
 ## Multi-instance use
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
 
-## Source-derived ports added\n\nNine features were ported from PatrickMD, NOX-BOT and HIROBOT source files into `plugins/source-ports/patrickmd.js`: `apakah`, `bisakah`, `kapankah`, `pantun`, `botrules`, and `dzikir`, `sysinfo`, `prayer-times`, and `groups`. They were adapted to the unified plugin contract; original source files remain unchanged. The source paths and provenance are recorded in the module header. These are nine source-derived ports, not a claim that all 560 catalogued files have been migrated.\n\n## Source compatibility and exclusions
-The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 74 commands in this folder are implemented against the new plugin contract and do not import legacy globals.
+## Source-derived ports added\n\nNine features were ported from PatrickMD, NOX-BOT and HIROBOT source files into `plugins/core/source-ports-patrickmd.js`: `apakah`, `bisakah`, `kapankah`, `pantun`, `botrules`, and `dzikir`, `sysinfo`, `prayer-times`, and `groups`. They were adapted to the unified plugin contract; original source files remain unchanged. The source paths and provenance are recorded in the module header. These are nine source-derived ports, not a claim that all 560 catalogued files have been migrated.\n\n## Source compatibility and exclusions
+The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 535 pre-existing unified plugin entries and nine source-derived ports are implemented against the new plugin contract and do not import legacy globals.
 
 Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define`, `translate`, `github`, `npm`, `animesearch` and `lyrics` are public third-party services and may change or apply their own limits.
 
