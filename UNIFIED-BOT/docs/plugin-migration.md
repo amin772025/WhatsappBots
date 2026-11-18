@@ -15,7 +15,7 @@ The current folder contains 69 independently implemented plugins:
 
 ## Archived source files and migration status
 
-The 558 archived source files are now present in `source-archive/` for later inspection. Their presence does not mean they have been ported or are ready to run. Only the 69 plugins in `plugins/core/` are currently loaded by the runtime.
+Of the 560 discovered source plugin files, 558 are retained in the repository: 518 were copied into `source-archive/`, while 40 remain in the unchanged extracted source trees and are listed separately in the catalog. Two adult-content downloader files are deliberately not duplicated into the archive. None of these archived or extracted legacy files is loaded by the unified runtime. Only the 69 plugins in `plugins/core/` are currently loaded by the runtime.
 
 ## Why the other source plugins are not imported automatically
 
