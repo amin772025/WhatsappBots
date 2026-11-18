@@ -264,7 +264,7 @@ function cryptoHash(algorithm, value) {
 }
 function createHash(algorithm, value) {
   // Dynamic import is avoided: this module uses Node's built-in createHash.
-  return hashSync(algorithm, value);
+  return hashSync(algorithm).update(value).digest("hex");
 }
 import { createHash as hashSync } from "node:crypto";
 
