@@ -22,7 +22,7 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (335 plugins)
+## Current command set (535 plugins)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`, `warn`, `unwarn`, `warnings`
@@ -37,7 +37,7 @@ The example owner number is intentionally blank. Startup will stop until you con
 - Utilities and diagnostics: `idme`, `shorturl`, `server`, `date`
 - Search: `github` / `gh`, `npm` / `npmsearch`, `animesearch` / `mal`, `lyrics` / `songinfo`
 
-The 100 offline utilities include text transformations and counters, URL/HTML/JSON/Base32/hex/binary/Morse encoders, date and number helpers, converters, study tools, flashcards and text statistics. They run locally without API keys. Another 150 commands cover text extraction, developer/data helpers, math and physics, dates, conversions, study planning, productivity and group-message formatting.\n\nUse `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
+The 100 offline utilities include text transformations and counters, URL/HTML/JSON/Base32/hex/binary/Morse encoders, date and number helpers, converters, study tools, flashcards and text statistics. They run locally without API keys. Another 150 commands cover text extraction, developer/data helpers, math and physics, dates, conversions, study planning, productivity and group-message formatting. A further 200 commands add expanded text processing, mathematics, date/time calculations, unit conversions, science and geometry, developer/data validation, study templates, productivity formats and numeric helpers.\n\nUse `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
 
 ## Group command permissions
 - Moderation commands require the sender to be a group admin or the configured owner.
