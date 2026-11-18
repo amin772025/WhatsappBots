@@ -7,6 +7,11 @@ The source inventory is stored in `source-plugin-catalog.json`. It records file 
 - `ping`: minimal connectivity response.
 - `menu`: category-first navigation, category view and all-commands view.
 - `stats`: per-instance aggregate counters.
+- `calc`: safe arithmetic parser (no `eval` or dynamic code execution).
+- `quote`: short original motivational messages.
+- `runtime`: process uptime.
+- `owner`: configured public owner/developer contact.
+- `groupinfo`: read-only current-group details.
 - Registry, dispatch, permissions, persistence and Baileys connection are implemented independently of the legacy global state.
 
 ## Why legacy plugins are not copied wholesale
