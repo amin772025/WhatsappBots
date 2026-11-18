@@ -1,0 +1,11 @@
+{
+  "name": "amin-unified-whatsapp-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check core/config.js && node --check core/plugin-registry.js && node --check core/permissions.js && node --check core/dispatcher.js && node --check core/menu/renderer.js"
+  }
+}
