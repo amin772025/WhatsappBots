@@ -1,6 +1,6 @@
 import { requireBotAdmin } from "../../core/group-actions.js";
 export default {
-  id: "groupclose", command: "groupclose", aliases: ["close"], category: "Group",
+  id: "groupclose", command: "groupclose", aliases: ["close", "mute"], category: "Group",
   description: "Allow only admins to send group messages", adminOnly: true,
   async execute({ message, reply, context }) {
     try {
