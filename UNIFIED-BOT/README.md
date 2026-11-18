@@ -32,7 +32,7 @@ The example owner number is intentionally blank. Startup will stop until you con
 - Group extras: `idgc`, `listadmin`, `tagall`, `hidetag`, `setrules`, `rules`
 - Games and knowledge: `trivia`, `mathquiz`, `wordmix`, `animequote`, `asmaulhusna`, `doa`, `tasbih`
 - Utilities and diagnostics: `idme`, `shorturl`, `server`, `date`
-- Search: `github` / `gh`, `npm` / `npmsearch`\n- Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`, `animesearch` (`mal`, `بحث_انمي`), `lyrics` (`songinfo`)
+- Search: `github` / `gh`, `npm` / `npmsearch`\n- Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`
 
 Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
 
