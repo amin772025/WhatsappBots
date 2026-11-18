@@ -53,7 +53,7 @@ Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Gro
 - `core/media.js`: bounded image/sticker conversion.
 - `adapters/baileys/provider.js`: Baileys connection, QR events, message normalization and group participant events.
 - `runtime.js`: plugin dispatch, anti-link moderation, welcome events and usage counters.
-- `plugins/core/`: the 48 reviewed built-in commands.
+- `plugins/core/`: the 67 implemented unified commands.
 
 ## Multi-instance use
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
