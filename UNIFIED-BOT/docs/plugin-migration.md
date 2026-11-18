@@ -1,6 +1,6 @@
 # Legacy plugin migration and audit
 
-The three original codebases remain untouched. All 518 plugin files listed in `source-plugin-catalog.json` are mirrored byte-for-byte under `source-archive/` (with source-specific folders). This archive is inert: it is not registered, imported, or executed by the unified runtime.
+The three original codebases remain untouched. Of 560 discovered plugin source files, 558 are mirrored byte-for-byte under `source-archive/` (with source-specific folders); two adult-content downloader sources are not duplicated. The catalog records the full discovery and archive status. This archive is inert: it is not registered, imported, or executed by the unified runtime.
 
 ## Implemented in the unified runtime
 
@@ -15,7 +15,7 @@ The current folder contains 67 independently implemented plugins:
 
 ## Archived source files and migration status
 
-The 518 source files are now present in `source-archive/` for later inspection. Their presence does not mean they have been ported or are ready to run. Only the 67 plugins in `plugins/core/` are currently loaded by the runtime.
+The 558 archived source files are now present in `source-archive/` for later inspection. Their presence does not mean they have been ported or are ready to run. Only the 67 plugins in `plugins/core/` are currently loaded by the runtime.
 
 ## Why the other source plugins are not imported automatically
 

@@ -608,5 +608,69 @@
       "cataloguedPluginFiles": 274
     }
   },
-  "note": "Inventory only. Privacy-invasive, adult, credential/file-extraction, arbitrary-code, spam, deceptive and gambling-related plugin paths are omitted. No legacy plugin code is imported automatically."
+  "note": "Inventory only. Privacy-invasive, adult, credential/file-extraction, arbitrary-code, spam, deceptive and gambling-related plugin paths are omitted. No legacy plugin code is imported automatically.",
+  "archiveSummary": {
+    "discoveredPluginFiles": 560,
+    "archivedPluginFiles": 558,
+    "archivedBySource": {
+      "HIROBOT": 95,
+      "NOX": 158,
+      "PatrickMD": 305
+    },
+    "cataloguedPluginFiles": 518,
+    "additionalArchivedFiles": [
+      "extracted/HIROBOT/HIROBOT-main/plugins/group/fakemsg.js",
+      "extracted/HIROBOT/HIROBOT-main/plugins/owner/exec.js",
+      "extracted/HIROBOT/HIROBOT-main/plugins/owner/migratedb.js",
+      "extracted/HIROBOT/HIROBOT-main/plugins/tools/viewonce.js",
+      "extracted/NOX-BOT/NOX-BOT/plugins/Check-numbers.js",
+      "extracted/NOX-BOT/NOX-BOT/plugins/_autoforward.js",
+      "extracted/NOX-BOT/NOX-BOT/plugins/lid.js",
+      "extracted/NOX-BOT/NOX-BOT/plugins/lid2.js",
+      "extracted/NOX-BOT/NOX-BOT/plugins/owner-exec2.js",
+      "extracted/PatrickMD/plugins/fun/bucin.js",
+      "extracted/PatrickMD/plugins/fun/cantikcek.js",
+      "extracted/PatrickMD/plugins/fun/dare.js",
+      "extracted/PatrickMD/plugins/fun/gantengcek.js",
+      "extracted/PatrickMD/plugins/fun/jadian-putus.js",
+      "extracted/PatrickMD/plugins/fun/jadian-terima.js",
+      "extracted/PatrickMD/plugins/fun/jadian-tolak.js",
+      "extracted/PatrickMD/plugins/fun/jadian.js",
+      "extracted/PatrickMD/plugins/fun/truth.js",
+      "extracted/PatrickMD/plugins/maker/fakecall.js",
+      "extracted/PatrickMD/plugins/maker/fakegithub.js",
+      "extracted/PatrickMD/plugins/maker/fakenotif.js",
+      "extracted/PatrickMD/plugins/maker/faketiktok.js",
+      "extracted/PatrickMD/plugins/owner/broadcastgc.js",
+      "extracted/PatrickMD/plugins/owner/eval.js",
+      "extracted/PatrickMD/plugins/owner/exec.js",
+      "extracted/PatrickMD/plugins/owner/getdb.js",
+      "extracted/PatrickMD/plugins/owner/getfile.js",
+      "extracted/PatrickMD/plugins/owner/pushkontak.js",
+      "extracted/PatrickMD/plugins/rpg/rampok.js",
+      "extracted/PatrickMD/plugins/rpg/taruhan.js",
+      "extracted/PatrickMD/plugins/stalker/checkban.js",
+      "extracted/PatrickMD/plugins/stalker/ffstalk.js",
+      "extracted/PatrickMD/plugins/stalker/githubstalk.js",
+      "extracted/PatrickMD/plugins/stalker/igstalk.js",
+      "extracted/PatrickMD/plugins/stalker/stalkch.js",
+      "extracted/PatrickMD/plugins/stalker/tiktokrepost.js",
+      "extracted/PatrickMD/plugins/stalker/tiktokstalk.js",
+      "extracted/PatrickMD/plugins/tools/spamngl.js",
+      "extracted/PatrickMD/plugins/tools/tempmail.js",
+      "extracted/PatrickMD/plugins/tools/tracknama.js"
+    ],
+    "excludedFromArchive": [
+      {
+        "path": "extracted/HIROBOT/HIROBOT-main/plugins/dl/e621.js",
+        "reason": "adult-content downloader source; not duplicated into the unified archive"
+      },
+      {
+        "path": "extracted/HIROBOT/HIROBOT-main/plugins/dl/pornhub.js",
+        "reason": "adult-content downloader source; not duplicated into the unified archive"
+      }
+    ],
+    "archiveIsInactive": true,
+    "runtimeLoadsArchive": false
+  }
 }

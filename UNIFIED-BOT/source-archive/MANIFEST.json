@@ -3,12 +3,18 @@
   "status": "inactive-source-only",
   "executable": false,
   "runtimeLoadsArchive": false,
-  "totalPluginFiles": 518,
+  "discoveredPluginFiles": 560,
+  "archivedPluginFiles": 558,
+  "cataloguedPluginFiles": 518,
   "bySource": {
-    "HIROBOT": 91,
-    "NOX": 153,
-    "PatrickMD": 274
+    "HIROBOT": 95,
+    "NOX": 158,
+    "PatrickMD": 305
   },
+  "excludedFromArchive": [
+    "extracted/HIROBOT/HIROBOT-main/plugins/dl/e621.js",
+    "extracted/HIROBOT/HIROBOT-main/plugins/dl/pornhub.js"
+  ],
   "implementedUnifiedPlugins": 67,
   "note": "Archived copies are preserved for review. They are not ported, registered, imported, or executed. Original extracted source trees remain untouched."
 }
