@@ -10,13 +10,13 @@ A clean, instance-based WhatsApp bot foundation built from a review of the three
 
 ## First run
 
-1. Copy `settings.example.js` to `settings.js` (or edit the included local `settings.js`).
+1. Copy `settings.example.js` to `settings.js`.
 2. Set `ownerNumber` to the owner's international digits only (8–15 digits, no plus sign).
 3. Set bot name, owner name, prefix, language, mode and separate session/data directories.
 4. From this directory run `npm install`, then `npm test`, then `npm start`.
 5. Scan the QR code from WhatsApp > Linked devices.
 
-Never share or commit `sessions/`, `data/`, `.env`, or a real settings file containing private credentials. The included starter owner number is intentionally blank; startup refuses to connect until configured.
+Never share or commit `sessions/`, `data/`, `.env`, or a real settings file containing private credentials. `settings.js` is intentionally ignored by Git and is not included in the repository. The example owner number is blank; startup refuses to connect until you configure it.
 
 ## Architecture
 
