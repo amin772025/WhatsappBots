@@ -10,13 +10,19 @@ import { createJsonStore } from "./core/storage/json-store.js";
 import { jidNormalizedUser } from "@whiskeysockets/baileys";
 
 export async function createRuntime({ config = loadConfig(), provider = null } = {}) {
+  const activeConfig = { ...config };
   const registry = new PluginRegistry();
   await registry.loadDirectory(fileURLToPath(new URL("./plugins/core/", import.meta.url)));
-  const permissions = createPermissionService(config);
   const store = await createJsonStore({
     filePath: path.join(config.dataDir, "state.json"),
     initialValue: { users: {}, chats: {}, settings: {} }
   });
+  const savedSettings = store.read().settings || {};
+  if (typeof savedSettings.prefix === "string") activeConfig.prefix = savedSettings.prefix;
+  if (["public", "private"].includes(savedSettings.mode)) activeConfig.mode = savedSettings.mode;
+  if (typeof savedSettings.botName === "string" && savedSettings.botName.trim()) activeConfig.botName = savedSettings.botName;
+  if (["ar", "en"].includes(savedSettings.language)) activeConfig.language = savedSettings.language;
+  const permissions = createPermissionService(activeConfig);
   const wa = provider || createBaileysProvider({
     sessionDir: config.sessionDir,
     onQr: () => {},
@@ -24,7 +30,7 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
   });
 
   const dispatch = createDispatcher({
-    config, permissions, registry,
+    config: activeConfig, permissions, registry,
     send: (chatId, text) => wa.sendText(chatId, text)
   });
 
@@ -81,16 +87,16 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
       });
     }
     if (result.status === "unknown-command") {
-      await wa.sendText(message.chatId, `الأمر غير موجود. اكتب ${config.prefix}menu لعرض القائمة.`);
+      await wa.sendText(message.chatId, `الأمر غير موجود. اكتب ${activeConfig.prefix}menu لعرض القائمة.`);
     }
   });
 
   const runtime = {
-    config, registry, permissions, provider: wa, store,
+    config: activeConfig, registry, permissions, provider: wa, store,
     startedAt: Date.now(),
     menu(category = "", userName = "") {
       return renderMenu({
-        config, plugins: registry.list(),
+        config: activeConfig, plugins: registry.list(),
         userName, category, uptimeSeconds: (Date.now() - this.startedAt) / 1000
       });
     },
