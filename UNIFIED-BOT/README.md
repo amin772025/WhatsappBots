@@ -22,11 +22,11 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (544 plugins: 535 existing + 9 source-derived ports)
+## Current command set (344 plugins: 335 existing + 9 source-derived ports)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`, `warn`, `unwarn`, `warnings`
-- Tools: `calc`, `reverse`, `brat`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`, plus 250 offline utility commands across Text, Encoding, Math, Info, Fun and Education categories
+- Tools: `calc`, `reverse`, `brat`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
 - Games: `8ball`, `coin`, `dice`, `rps`, `trivia`, `mathquiz`, `wordmix`
 - Money: `daily`, `work`, `balance`, `top`, `bank`, `deposit`, `withdraw`, `pay`
 - AI: `ai`, `gpt`, `deepseek`, `bing`, `explain`, `summarize`, `translateai` (public Pollinations-compatible endpoint; subject to service availability)
@@ -37,7 +37,7 @@ The example owner number is intentionally blank. Startup will stop until you con
 - Utilities and diagnostics: `idme`, `shorturl`, `server`, `date`
 - Search: `github` / `gh`, `npm` / `npmsearch`, `animesearch` / `mal`, `lyrics` / `songinfo`
 
-The 100 offline utilities include text transformations and counters, URL/HTML/JSON/Base32/hex/binary/Morse encoders, date and number helpers, converters, study tools, flashcards and text statistics. They run locally without API keys. Another 150 commands cover text extraction, developer/data helpers, math and physics, dates, conversions, study planning, productivity and group-message formatting. A further 200 commands add expanded text processing, mathematics, date/time calculations, unit conversions, science and geometry, developer/data validation, study templates, productivity formats and numeric helpers. The current runtime also loads nine source-derived ports from the original HIROBOT, NOX-BOT and PatrickMD repositories.\n\nUse `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
+The current runtime loads nine source-derived ports from the original HIROBOT, NOX-BOT and PatrickMD repositories. The unrelated generic 200-command pack has been removed; only source-reviewed ports are counted as migrated.\n\nUse `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
 
 ## Group command permissions
 - Moderation commands require the sender to be a group admin or the configured owner.
@@ -61,8 +61,10 @@ The 100 offline utilities include text transformations and counters, URL/HTML/JS
 ## Multi-instance use
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
 
-## Source-derived ports added\n\nNine features were ported from PatrickMD, NOX-BOT and HIROBOT source files into `plugins/core/source-ports-patrickmd.js`: `apakah`, `bisakah`, `kapankah`, `pantun`, `botrules`, and `dzikir`, `sysinfo`, `prayer-times`, and `groups`. They were adapted to the unified plugin contract; original source files remain unchanged. The source paths and provenance are recorded in the module header. These are nine source-derived ports, not a claim that all 560 catalogued files have been migrated.\n\n## Source compatibility and exclusions
-The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 535 pre-existing unified plugin entries and nine source-derived ports are implemented against the new plugin contract and do not import legacy globals.
+## Source-derived ports added
+
+Nine features were ported from PatrickMD, NOX-BOT and HIROBOT source files into `plugins/core/source-ports-patrickmd.js`: `apakah`, `bisakah`, `kapankah`, `pantun`, `botrules`, and `dzikir`, `sysinfo`, `prayer-times`, and `groups`. They were adapted to the unified plugin contract; original source files remain unchanged. The source paths and provenance are recorded in the module header. These are nine source-derived ports, not a claim that all 560 catalogued files have been migrated.\n\n## Source compatibility and exclusions
+The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 335 pre-existing unified plugin entries and nine source-derived ports are implemented against the new plugin contract and do not import legacy globals.
 
 Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define`, `translate`, `github`, `npm`, `animesearch` and `lyrics` are public third-party services and may change or apply their own limits.
 
