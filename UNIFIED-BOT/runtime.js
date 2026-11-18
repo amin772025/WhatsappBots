@@ -45,10 +45,10 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
   const runtime = {
     config, registry, permissions, provider: wa,
     startedAt: Date.now(),
-    menu(userName = "") {
+    menu(category = "", userName = "") {
       return renderMenu({
         config, plugins: registry.list(),
-        userName, uptimeSeconds: (Date.now() - this.startedAt) / 1000
+        userName, category, uptimeSeconds: (Date.now() - this.startedAt) / 1000
       });
     },
     async start() { await wa.connect(); },
