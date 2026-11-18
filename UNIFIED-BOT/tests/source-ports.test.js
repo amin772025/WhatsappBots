@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import plugins from "../plugins/source-ports/patrickmd.js";
+import plugins from "../plugins/core/source-ports-patrickmd.js";
 
 test("PatrickMD source-derived ports expose six distinct original features", () => {
   assert.equal(plugins.length, 6);
