@@ -115,7 +115,7 @@ test("admin commands require the owner or a real group-admin signal", () => {
 test("group command plugins are registered and require admin privileges", async () => {
   const registry = new PluginRegistry();
   await registry.loadDirectory(new URL("../plugins/core/", import.meta.url).pathname);
-  for (const name of ["kick", "promote", "demote", "groupname", "groupdesc", "groupclose", "groupopen", "antilink", "welcome", "setwelcome"]) {
+  for (const name of ["add", "kick", "promote", "demote", "groupname", "groupdesc", "groupclose", "groupopen", "antilink", "welcome", "setwelcome"]) {
     assert.equal(registry.resolve(name)?.adminOnly, true, name);
   }
   assert.ok(registry.resolve("grouplink"));
@@ -124,7 +124,7 @@ test("group command plugins are registered and require admin privileges", async 
   for (const name of ["mode", "setprefix", "setbotname", "setlang"]) {
     assert.equal(registry.resolve(name)?.ownerOnly, true, name);
   }
-  assert.equal(registry.size, 65);
+  assert.equal(registry.size, 66);
 });
 
 test("group target resolver supports mentions, quotes and validated phone numbers", () => {
