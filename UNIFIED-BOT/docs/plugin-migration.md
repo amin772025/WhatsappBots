@@ -4,11 +4,13 @@ The three original codebases remain untouched. Their plugin files are catalogued
 
 ## Implemented in the unified runtime
 
-The current folder contains 48 independently implemented plugins:
+The current folder contains 65 independently implemented plugins:
 - Core and information: menu/help, ping, owner, runtime, stats, profile, quote, joke, fact, report, persistent mode/prefix/name/language controls.
 - Group management: group info/link, kick, promote/demote, rename/description, open/close, revoke link, anti-link, welcome and custom welcome text.
 - Utilities and media: calculator, reverse, Base64 encode/decode, UUID, dictionary, translation, QR image, sticker and PNG conversion.
-- Games: dice, coin flip, 8-ball, rock-paper-scissors, choose, daily rewards, work cooldown, balance and leaderboard.
+- Games: dice, coin flip, 8-ball, rock-paper-scissors, choose, trivia, arithmetic challenge, word scramble, daily rewards, work cooldown, balance and leaderboard.
+- Group extras: group ID, admin list, admin-only member mentions/hidetag, and persistent group rules.
+- Knowledge and utility extras: short supplications/remembrance, Asma ul Husna, inspirational quotes, short URL, server diagnostics and Cairo-local date/time.
 - Public reference tools: weather, Wikipedia summary.
 
 ## Why the other source plugins are not imported automatically
