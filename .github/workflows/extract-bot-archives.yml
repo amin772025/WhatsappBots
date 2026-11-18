@@ -1,0 +1,57 @@
+name: Extract bot archives
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+
+      - name: Extract original bot archives
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p extracted
+
+          extract_archive() {
+            local archive="$1"
+            local destination="$2"
+
+            if [[ ! -f "$archive" ]]; then
+              echo "Missing archive: $archive" >&2
+              exit 1
+            fi
+
+            if [[ -e "$destination" ]]; then
+              echo "Destination already exists; refusing to overwrite: $destination" >&2
+              exit 1
+            fi
+
+            mkdir -p "$destination"
+            unzip -q "$archive" -d "$destination"
+          }
+
+          extract_archive "HIROBOT-main (1).zip" "extracted/HIROBOT"
+          extract_archive "NOX-BOT.zip" "extracted/NOX-BOT"
+          extract_archive "PatrickMD V2.1.0.zip" "extracted/PatrickMD"
+
+      - name: Commit extracted source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extracted/
+          if git diff --cached --quiet; then
+            echo "No extracted files to commit."
+            exit 0
+          fi
+          git commit -m "Extract original WhatsApp bot archives"
+          git push
