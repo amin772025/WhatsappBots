@@ -22,7 +22,7 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (541 plugins: 535 existing + 6 source-derived ports)
+## Current command set (544 plugins: 535 existing + 9 source-derived ports)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`, `warn`, `unwarn`, `warnings`
@@ -61,7 +61,7 @@ The 100 offline utilities include text transformations and counters, URL/HTML/JS
 ## Multi-instance use
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
 
-## Source-derived ports added\n\nSix features were ported from PatrickMD source files into `plugins/source-ports/patrickmd.js`: `apakah`, `bisakah`, `kapankah`, `pantun`, `botrules`, and `dzikir`. They were adapted to the unified plugin contract; original source files remain unchanged. The source paths and provenance are recorded in the module header. These are six source-derived ports, not a claim that all 560 catalogued files have been migrated.\n\n## Source compatibility and exclusions
+## Source-derived ports added\n\nNine features were ported from PatrickMD, NOX-BOT and HIROBOT source files into `plugins/source-ports/patrickmd.js`: `apakah`, `bisakah`, `kapankah`, `pantun`, `botrules`, and `dzikir`, `sysinfo`, `prayer-times`, and `groups`. They were adapted to the unified plugin contract; original source files remain unchanged. The source paths and provenance are recorded in the module header. These are nine source-derived ports, not a claim that all 560 catalogued files have been migrated.\n\n## Source compatibility and exclusions
 The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560 original plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 74 commands in this folder are implemented against the new plugin contract and do not import legacy globals.
 
 Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define`, `translate`, `github`, `npm`, `animesearch` and `lyrics` are public third-party services and may change or apply their own limits.
