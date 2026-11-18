@@ -8,6 +8,7 @@ import { renderMenu } from "../core/menu/renderer.js";
 import { assertWhatsAppProvider } from "../adapters/baileys/contract.js";
 import { normalizeIncomingMessage, extractMessageText } from "../adapters/baileys/provider.js";
 import { createRuntime } from "../runtime.js";
+import { targetJid } from "../core/group-actions.js";
 
 const config = loadConfig({
   botName: "Test Bot", ownerName: "Owner", ownerNumber: "201000000000",
@@ -117,4 +118,11 @@ test("group command plugins are registered and require admin privileges", async 
   assert.ok(registry.resolve("grouplink"));
   assert.ok(registry.resolve("dice"));
   assert.ok(registry.resolve("base64decode"));
+});
+
+test("group target resolver supports mentions, quotes and validated phone numbers", () => {
+  assert.equal(targetJid({ mentionedJids: ["123@s.whatsapp.net"] }, []), "123@s.whatsapp.net");
+  assert.equal(targetJid({ quotedParticipantJid: "456@lid" }, []), "456@lid");
+  assert.equal(targetJid({}, ["+201000000000"]), "201000000000@s.whatsapp.net");
+  assert.throws(() => targetJid({}, ["123"]), /Reply to a member/);
 });
