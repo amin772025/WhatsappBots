@@ -118,9 +118,13 @@ export function createBaileysProvider({ sessionDir, onQr = () => {}, onConnectio
     }
   }
 
-  async function sendText(chatId, text) {
+  async function sendMessage(chatId, content, options) {
     if (!socket) throw new Error("WhatsApp is not connected");
-    return socket.sendMessage(chatId, { text: String(text) });
+    return socket.sendMessage(chatId, content, options);
+  }
+
+  async function sendText(chatId, text) {
+    return sendMessage(chatId, { text: String(text) });
   }
 
   function onMessageListener(listener) {
@@ -139,7 +143,7 @@ export function createBaileysProvider({ sessionDir, onQr = () => {}, onConnectio
   }
 
   return Object.freeze({
-    connect, disconnect, sendText,
+    connect, disconnect, sendText, sendMessage,
     onMessage: onMessageListener,
     onConnection: onConnectionListener,
     onParticipants,
