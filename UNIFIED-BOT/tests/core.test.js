@@ -117,7 +117,7 @@ test("admin commands require the owner or a real group-admin signal", () => {
 test("group command plugins are registered and require admin privileges", async () => {
   const registry = new PluginRegistry();
   await registry.loadDirectory(new URL("../plugins/core/", import.meta.url).pathname);
-  for (const name of ["add", "kick", "promote", "demote", "groupname", "groupdesc", "groupclose", "groupopen", "antilink", "welcome", "setwelcome"]) {
+  for (const name of ["add", "kick", "promote", "demote", "groupname", "groupdesc", "groupclose", "groupopen", "antilink", "welcome", "setwelcome", "warn", "unwarn"]) {
     assert.equal(registry.resolve(name)?.adminOnly, true, name);
   }
   assert.ok(registry.resolve("grouplink"));
