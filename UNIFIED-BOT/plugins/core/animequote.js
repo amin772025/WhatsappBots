@@ -5,7 +5,7 @@ const quotes = [
   "A true friend helps you become a better version of yourself."
 ];
 export default {
-  id: "animequote", command: ["animequote", "inspire"], category: "Fun",
+  id: "animequote", command: "animequote", category: "Fun",
   description: "Share an original anime-style inspirational line",
   async execute({ reply }) {
     await reply("✨ " + quotes[Math.floor(Math.random() * quotes.length)]);
