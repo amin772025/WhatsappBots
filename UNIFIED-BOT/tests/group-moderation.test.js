@@ -5,7 +5,7 @@ import unwarn from "../plugins/core/unwarn.js";
 import warnings from "../plugins/core/warnings.js";
 function fixture() {
   let state = { chats: {} };
-  return { runtime: { store: { read: () => structuredClone(state), async transact(fn) { await fn(state); } } }, get state() { return state; } };
+  return { runtime: { provider: { socket: null }, store: { read: () => structuredClone(state), async transact(fn) { await fn(state); } } }, get state() { return state; } };
 }
 test("group warning commands persist, list and remove a member warning", async () => {
   const f = fixture(), replies = [];
