@@ -27,7 +27,7 @@ export function protectGroupTarget(target, message, config, context) {
   if (targetDigits && targetDigits === config.ownerNumber) {
     throw new Error("The configured bot owner is protected from group moderation commands.");
   }
-  const socket = context.runtime.provider.socket;
+  const socket = context.runtime.provider?.socket;
   const normalizeJid = jid => String(jid || "").replace(/:\d+(?=@)/, "");
   const botIds = [socket?.user?.id, socket?.user?.lid].filter(Boolean).map(normalizeJid);
   if (botIds.includes(normalizeJid(target))) throw new Error("The bot account is protected.");
