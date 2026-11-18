@@ -48,7 +48,7 @@ export function renderMenu({ config, plugins, userName = "", uptimeSeconds = 0, 
         allLines.push(`• ${config.prefix}${command}${plugin.description ? ` — ${plugin.description}` : ""}`);
       }
     }
-    return allLines.join("\\n");
+    return allLines.join("\n");
   }
 
   if (category) {
