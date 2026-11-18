@@ -60,6 +60,7 @@ export function createBaileysProvider({ sessionDir, onQr = () => {}, onConnectio
   let closedByUser = false;
   const messageListeners = new Set();
   const connectionListeners = new Set();
+  const participantListeners = new Set();
 
   async function connect() {
     if (connecting || (socket && !closedByUser)) return;
@@ -85,6 +86,12 @@ export function createBaileysProvider({ sessionDir, onQr = () => {}, onConnectio
           for (const listener of connectionListeners) listener(update);
         }
         if (update.connection === "close") socket = null;
+      });
+      socket.ev.on("group-participants.update", async update => {
+        for (const listener of participantListeners) {
+          try { await listener(update); }
+          catch (error) { console.error("[participant handler]", error); }
+        }
       });
       socket.ev.on("messages.upsert", async ({ messages, type }) => {
         if (type !== "notify") return;
@@ -126,10 +133,16 @@ export function createBaileysProvider({ sessionDir, onQr = () => {}, onConnectio
     return () => connectionListeners.delete(listener);
   }
 
+  function onParticipants(listener) {
+    participantListeners.add(listener);
+    return () => participantListeners.delete(listener);
+  }
+
   return Object.freeze({
     connect, disconnect, sendText,
     onMessage: onMessageListener,
     onConnection: onConnectionListener,
+    onParticipants,
     get socket() { return socket; },
     get loggedOutCode() { return DisconnectReason.loggedOut; }
   });
