@@ -32,12 +32,18 @@ export function normalizeIncomingMessage(raw, socket) {
     key.participantPn, key.senderPn, key.remoteJidAlt, senderJid
   ].map(phoneDigits).find(Boolean) || "";
   const text = extractMessageText(raw);
+  const contextInfo = raw?.message?.extendedTextMessage?.contextInfo
+    || raw?.message?.imageMessage?.contextInfo
+    || raw?.message?.videoMessage?.contextInfo
+    || {};
   return {
     id: key.id || "",
     displayName: String(raw?.pushName || ""),
     chatId,
     senderJid,
     senderNumber,
+    quotedParticipantJid: contextInfo.participant || "",
+    mentionedJids: contextInfo.mentionedJid || [],
     text,
     isGroup: chatId.endsWith("@g.us"),
     fromMe: Boolean(key.fromMe),
