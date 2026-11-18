@@ -1,0 +1,30 @@
+name: Unified Bot Final Validation
+
+on:
+  push:
+    branches: ["amin-md/unified-bot-audit"]
+    paths:
+      - "UNIFIED-BOT/**"
+      - ".github/workflows/unified-bot-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: UNIFIED-BOT
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Syntax check
+        run: npm run check
+      - name: Unit tests
+        run: npm test
