@@ -5,7 +5,13 @@
   "type": "module",
   "engines": { "node": ">=22" },
   "scripts": {
+    "start": "node start.js",
     "test": "node --test",
-    "check": "node --check core/config.js && node --check core/plugin-registry.js && node --check core/permissions.js && node --check core/dispatcher.js && node --check core/menu/renderer.js"
+    "check": "node --check start.js && node --check core/config.js && node --check core/plugin-registry.js && node --check core/permissions.js && node --check core/dispatcher.js && node --check core/menu/renderer.js && node --check adapters/baileys/provider.js && node --check runtime.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.7.24",
+    "pino": "^9.6.0",
+    "qrcode-terminal": "^0.12.0"
   }
 }
