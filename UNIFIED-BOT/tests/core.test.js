@@ -124,7 +124,7 @@ test("group command plugins are registered and require admin privileges", async 
   for (const name of ["mode", "setprefix", "setbotname", "setlang"]) {
     assert.equal(registry.resolve(name)?.ownerOnly, true, name);
   }
-  assert.equal(registry.size, 48);
+  assert.equal(registry.size, 65);
 });
 
 test("group target resolver supports mentions, quotes and validated phone numbers", () => {
