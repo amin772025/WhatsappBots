@@ -6,6 +6,6 @@ export default {
       .map(([id, user]) => ({ id, coins: Number(user.coins) || 0 }))
       .sort((a, b) => b.coins - a.coins).slice(0, 10);
     if (!users.length) { await reply("No player data yet. Use .daily to start."); return; }
-    await reply("🏆 Virtual coin leaderboard\n" + users.map((u, i) => `${i + 1}. ${u.id.replace(/@.*/, "")}: ${u.coins}`).join("\n"));
+    await reply("🏆 Virtual coin leaderboard\n" + users.map((u, i) => `${i + 1}. Player ${i + 1}: ${u.coins}`).join("\n"));
   }
 };
