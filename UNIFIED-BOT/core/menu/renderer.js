@@ -24,7 +24,19 @@ export function renderMenu({ config, plugins, userName = "", uptimeSeconds = 0, 
     "╰━━━━━━━━━━━━━━━━━━╯"
   ];
 
-  if (category && category.toLowerCase() !== "all") {
+  if (category && category.toLowerCase() === "all") {
+    const allLines = [...header];
+    for (const name of categories) {
+      allLines.push("", `【 ${name} · ${grouped.get(name).length} 】`);
+      for (const plugin of grouped.get(name)) {
+        const command = plugin.commands[0];
+        allLines.push(`• ${config.prefix}${command}${plugin.description ? ` — ${plugin.description}` : ""}`);
+      }
+    }
+    return allLines.join("\\n");
+  }
+
+  if (category) {
     const match = categories.find(item => item.toLowerCase() === category.toLowerCase());
     if (!match) {
       return [...header, "", ar ? "الأقسام المتاحة:" : "Available categories:",
