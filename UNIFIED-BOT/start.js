@@ -1,6 +1,5 @@
 import qrcode from "qrcode-terminal";
 import { createRuntime } from "./runtime.js";
-import { createBaileysProvider } from "./adapters/baileys/provider.js";
 import { loadConfig } from "./core/config.js";
 
 const config = loadConfig();
@@ -26,11 +25,6 @@ const provider = createBaileysProvider({
 });
 
 const runtime = await createRuntime({ config, provider });
-provider.onMessage(async message => {
-  if (message.text.trim().toLowerCase() === config.prefix + "menu") {
-    await provider.sendText(message.chatId, runtime.menu(message.senderNumber));
-  }
-});
 
 await runtime.start();
 console.log(`${config.botName} started. Prefix: ${config.prefix}`);
