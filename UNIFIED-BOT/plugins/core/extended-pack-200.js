@@ -258,29 +258,6 @@ add("Data", [
 ["data_sortnumbers","Sort numbers ascending",s=>numbers(s).sort((a,b)=>a-b).join(", ")]
 ]);
 
-// NUMERIC AND FORMAT HELPERS — 20
-add("Utilities", [
-["util_unique_numbers","Remove duplicate numbers",s=>[...new Set(numbers(s))].join(", ")],
-["util_sort_desc","Sort numbers descending",s=>numbers(s).sort((a,b)=>b-a).join(", ")],
-["util_numberstats","Show count, sum, mean, min and max",s=>{const a=numbers(s),sum=a.reduce((x,y)=>x+y,0);return "Count: "+a.length+"\nSum: "+fmt(sum)+"\nMean: "+fmt(sum/a.length)+"\nMin: "+Math.min(...a)+"\nMax: "+Math.max(...a);}],
-["util_decimal_binary","Convert non-negative integer to binary",s=>{const n=Number(s);if(!Number.isSafeInteger(n)||n<0)fail("Enter a non-negative safe integer.");return n.toString(2);}],
-["util_binary_decimal","Convert binary to decimal",s=>{if(!/^[01]+$/.test(s.trim()))fail("Enter a binary number.");return String(parseInt(s,2));}],
-["util_decimal_hex","Convert non-negative integer to hexadecimal",s=>{const n=Number(s);if(!Number.isSafeInteger(n)||n<0)fail("Enter a non-negative safe integer.");return n.toString(16).toUpperCase();}],
-["util_hex_decimal","Convert hexadecimal to decimal",s=>{if(!/^(?:0x)?[0-9a-f]+$/i.test(s.trim()))fail("Enter a hexadecimal number.");return String(parseInt(s.replace(/^0x/i,""),16));}],
-["util_decimal_octal","Convert non-negative integer to octal",s=>{const n=Number(s);if(!Number.isSafeInteger(n)||n<0)fail("Enter a non-negative safe integer.");return n.toString(8);}],
-["util_octal_decimal","Convert octal to decimal",s=>{if(!/^[0-7]+$/.test(s.trim()))fail("Enter an octal number.");return String(parseInt(s,8));}],
-["util_scientific","Format number in scientific notation",s=>{const n=Number(s);if(!Number.isFinite(n))fail("Enter a valid number.");return n.toExponential(6);}],
-["util_fraction_decimal","Convert fraction to decimal: numerator denominator",s=>{const [a,b]=pair(s);if(!b)fail("Denominator cannot be zero.");return fmt(a/b);}],
-["util_decimal_fraction","Convert decimal to a fraction (up to 6 decimal places)",s=>{const n=Number(s);if(!Number.isFinite(n)||Math.abs(n)>1e9)fail("Enter a finite number with magnitude ≤ 1 billion.");const d=10**Math.min(6,(String(Math.abs(n)).split(".")[1]||"").length);let a=Math.round(n*d),b=d,x=Math.abs(a),y=b;while(y)[x,y]=[y,x%y];return (a/x)+"/"+(b/x);}],
-["util_ratio","Simplify ratio: a b",s=>{let [a,b]=pair(s);if(!Number.isInteger(a)||!Number.isInteger(b))fail("Use integers.");let x=Math.abs(a),y=Math.abs(b);while(y)[x,y]=[y,x%y];return (a/(x||1))+":"+(b/(x||1));}],
-["util_simple_interest","Simple interest: principal rate_percent years",s=>{const a=numbers(s);if(a.length!==3)fail("Use principal rate years.");const i=a[0]*a[1]*a[2]/100;return "Interest: "+fmt(i)+"\nTotal: "+fmt(a[0]+i);}],
-["util_compound_interest","Compound amount: principal rate_percent compounds_per_year years",s=>{const a=numbers(s);if(a.length!==4||a[2]<=0)fail("Use principal rate compounds_per_year years.");const total=a[0]*(1+a[1]/(100*a[2]))**(a[2]*a[3]);return "Final amount: "+fmt(total)+"\nInterest: "+fmt(total-a[0]);}],
-["util_average_speed","Average speed: total_distance total_time",s=>{const [d,t]=pair(s);if(t<=0)fail("Time must be positive.");return fmt(d/t);}],
-["util_tip","Tip and total: bill tip_percent",s=>{const [b,p]=pair(s);if(b<0||p<0)fail("Values cannot be negative.");return "Tip: "+fmt(b*p/100)+"\nTotal: "+fmt(b*(1+p/100));}],
-["util_discount","Discounted price: original_price discount_percent",s=>{const [p,d]=pair(s);if(p<0||d<0||d>100)fail("Use a non-negative price and discount from 0 to 100.");return "Savings: "+fmt(p*d/100)+"\nFinal price: "+fmt(p*(1-d/100));}],
-["util_tax","Add tax: price tax_percent",s=>{const [p,t]=pair(s);if(p<0||t<0)fail("Values cannot be negative.");return "Tax: "+fmt(p*t/100)+"\nTotal: "+fmt(p*(1+t/100));}]
-]);
-
 function cryptoHash(algorithm, value) {
   // Node's built-in crypto keeps hashing local; no text is sent to a service.
   return createHash(algorithm, value);
