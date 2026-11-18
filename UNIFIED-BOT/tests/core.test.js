@@ -9,6 +9,7 @@ import { assertWhatsAppProvider } from "../adapters/baileys/contract.js";
 import { normalizeIncomingMessage, extractMessageText } from "../adapters/baileys/provider.js";
 import { createRuntime } from "../runtime.js";
 import { targetJid, protectGroupTarget } from "../core/group-actions.js";
+import addPlugin from "../plugins/core/add.js";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -124,7 +125,35 @@ test("group command plugins are registered and require admin privileges", async 
   for (const name of ["mode", "setprefix", "setbotname", "setlang"]) {
     assert.equal(registry.resolve(name)?.ownerOnly, true, name);
   }
+  assert.equal(registry.resolve("mute")?.id, "groupclose");
+  assert.equal(registry.resolve("unmute")?.id, "groupopen");
   assert.equal(registry.size, 66);
+});
+
+
+test("group add command requires bot admin and calls Baileys participant add", async () => {
+  let call;
+  const replies = [];
+  const context = { runtime: { provider: { socket: {
+    async groupParticipantsUpdate(...args) { call = args; return [{ status: "200" }]; }
+  } } } };
+  await addPlugin.execute({
+    message: { isGroup: true, botIsAdmin: true },
+    args: ["201234567890"],
+    reply: async value => replies.push(value),
+    context
+  });
+  assert.deepEqual(call, ["test-group", ["201234567890@s.whatsapp.net"], "add"]);
+  assert.match(replies.at(-1), /Member added/);
+
+  const denied = [];
+  await addPlugin.execute({
+    message: { isGroup: true, botIsAdmin: false },
+    args: ["201234567890"],
+    reply: async value => denied.push(value),
+    context
+  });
+  assert.match(denied.at(-1), /Make the bot a group admin/);
 });
 
 test("group target resolver supports mentions, quotes and validated phone numbers", () => {
