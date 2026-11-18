@@ -3,7 +3,7 @@
   "sources": {
     "HIROBOT": {
       "javascriptFiles": 272,
-      "pluginFiles": 96,
+      "pluginFiles": 95,
       "pluginGroups": {
         "ai": [
           "extracted/HIROBOT/HIROBOT-main/plugins/ai/ai.js",
@@ -23,7 +23,6 @@
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/animein.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/apkpure.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/drive.js",
-          "extracted/HIROBOT/HIROBOT-main/plugins/dl/e621.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/fb.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/ig.js",
           "extracted/HIROBOT/HIROBOT-main/plugins/dl/mediafire.js",
@@ -123,17 +122,16 @@
       "reviewStatus": "inventory only; not automatically imported",
       "migrationRule": "manual API, dependency, permission and safety review required",
       "sourcePluginFilesTotal": 97,
-      "cataloguedPluginFiles": 96
+      "cataloguedPluginFiles": 95
     },
     "NOX": {
       "javascriptFiles": 188,
-      "pluginFiles": 158,
+      "pluginFiles": 157,
       "pluginGroups": {
         "(root)": [
           "extracted/NOX-BOT/NOX-BOT/plugins/AI-انطق.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/Ai-Cloud.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/Ai-vedeo.js",
-          "extracted/NOX-BOT/NOX-BOT/plugins/Check-numbers.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/Description - Pictures.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/Download-TikTok.js",
           "extracted/NOX-BOT/NOX-BOT/plugins/Download-songs.js",
@@ -293,11 +291,11 @@
       "reviewStatus": "inventory only; not automatically imported",
       "migrationRule": "manual API, dependency, permission and safety review required",
       "sourcePluginFilesTotal": 158,
-      "cataloguedPluginFiles": 158
+      "cataloguedPluginFiles": 157
     },
     "PatrickMD": {
       "javascriptFiles": 319,
-      "pluginFiles": 305,
+      "pluginFiles": 298,
       "pluginGroups": {
         "(root)": [
           "extracted/PatrickMD/plugins/_afk.js",
@@ -594,15 +592,6 @@
           "extracted/PatrickMD/plugins/search/wiki.js",
           "extracted/PatrickMD/plugins/search/yts.js"
         ],
-        "stalker": [
-          "extracted/PatrickMD/plugins/stalker/checkban.js",
-          "extracted/PatrickMD/plugins/stalker/ffstalk.js",
-          "extracted/PatrickMD/plugins/stalker/githubstalk.js",
-          "extracted/PatrickMD/plugins/stalker/igstalk.js",
-          "extracted/PatrickMD/plugins/stalker/stalkch.js",
-          "extracted/PatrickMD/plugins/stalker/tiktokrepost.js",
-          "extracted/PatrickMD/plugins/stalker/tiktokstalk.js"
-        ],
         "sticker": [
           "extracted/PatrickMD/plugins/sticker/brat.js",
           "extracted/PatrickMD/plugins/sticker/bratvid.js",
@@ -648,8 +637,8 @@
       "reviewStatus": "inventory only; not automatically imported",
       "migrationRule": "manual API, dependency, permission and safety review required",
       "sourcePluginFilesTotal": 305,
-      "cataloguedPluginFiles": 305
+      "cataloguedPluginFiles": 298
     }
   },
-  "note": "This inventory intentionally omits categories and filenames unsuitable for a teen-safe general-purpose bot. Paths are source inventory only; none of these plugins are loaded by the unified runtime."
+  "note": "Inventory only. Entries that are unsuitable for a teen-safe general-purpose bot or raise privacy concerns are intentionally omitted. No legacy plugin code is imported automatically."
 }
