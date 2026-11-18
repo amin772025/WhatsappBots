@@ -22,7 +22,7 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (67 plugins)
+## Current command set (71 plugins)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`
@@ -32,7 +32,7 @@ The example owner number is intentionally blank. Startup will stop until you con
 - Group extras: `idgc`, `listadmin`, `tagall`, `hidetag`, `setrules`, `rules`
 - Games and knowledge: `trivia`, `mathquiz`, `wordmix`, `animequote`, `asmaulhusna`, `doa`, `tasbih`
 - Utilities and diagnostics: `idme`, `shorturl`, `server`, `date`
-- Search: `github` / `gh`, `npm` / `npmsearch`\n- Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`
+- Search: `github` / `gh`, `npm` / `npmsearch`\n- Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`, `animesearch` (`mal`, `بحث_انمي`), `lyrics` (`songinfo`)
 
 Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
 
