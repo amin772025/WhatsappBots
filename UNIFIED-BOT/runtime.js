@@ -7,6 +7,7 @@ import { createBaileysProvider } from "./adapters/baileys/provider.js";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { createJsonStore } from "./core/storage/json-store.js";
+import { jidNormalizedUser } from "@whiskeysockets/baileys";
 
 export async function createRuntime({ config = loadConfig(), provider = null } = {}) {
   const registry = new PluginRegistry();
@@ -41,8 +42,8 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
         (message.senderNumber && String(item.phoneNumber || "").replace(/\D/g, "") === message.senderNumber)
       );
       message.senderIsAdmin = Boolean(participant?.admin);
-      const botIds = [wa.socket?.user?.id, wa.socket?.user?.lid].filter(Boolean);
-      const botParticipant = metadata?.participants?.find(item => botIds.includes(item.id));
+      const botIds = [wa.socket?.user?.id, wa.socket?.user?.lid].filter(Boolean).map(jidNormalizedUser);
+      const botParticipant = metadata?.participants?.find(item => botIds.includes(jidNormalizedUser(item.id)));
       message.botIsAdmin = Boolean(botParticipant?.admin);
     }
     if (message.isGroup && message.text && !permissions.isOwner(message) && !message.senderIsAdmin) {
@@ -100,7 +101,7 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
     for (const participant of (update.participants || []).slice(0, 10)) {
       const user = "@" + String(participant).split("@")[0].split(":")[0];
       const text = template.replaceAll("{user}", user).replaceAll("{group}", groupName);
-      await wa.sendText(update.id, text);
+      await wa.sendMessage(update.id, { text, mentions: [participant] });
     }
   });
 
