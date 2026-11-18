@@ -7,6 +7,9 @@
 // - extracted/PatrickMD/plugins/fun/pantun.js
 // - extracted/PatrickMD/plugins/info/rules.js
 // - extracted/PatrickMD/plugins/islamic/dzikir.js
+// - extracted/NOX-BOT/NOX-BOT/plugins/بينج.js
+// - extracted/NOX-BOT/NOX-BOT/plugins/deen-azan.js
+// - extracted/HIROBOT/HIROBOT-main/plugins/group/grouplist.js
 
 const pick = items => items[Math.floor(Math.random() * items.length)];
 export default [
@@ -76,6 +79,54 @@ export default [
     description: "Displays a short remembrance checklist, ported from PatrickMD.",
     async execute({ reply }) {
       return reply("📿 *أذكار مختصرة*\n\n• آية الكرسي.\n• سورة الإخلاص والفلق والناس.\n• سبحان الله.\n• الحمد لله.\n• الله أكبر.\n\nيمكنك قراءة الأذكار من مصحف أو مصدر موثوق للتأكد من النص والعدد.");
+    }
+  }
+  ,{
+    id: "src-nox-sysinfo",
+    command: "sysinfo",
+    aliases: ["systeminfo"],
+    category: "Info",
+    description: "Shows live process, memory and host information, ported from NOX.",
+    ownerOnly: true,
+    async execute({ reply }) {
+      const os = await import("node:os");
+      const used = process.memoryUsage();
+      const total = os.totalmem();
+      const free = os.freemem();
+      const fmt = n => `${(n / 1024 / 1024).toFixed(1)} MB`;
+      return reply(`🖥️ *SYSTEM STATUS*\\nUptime: ${(process.uptime()/3600).toFixed(2)} hours\\nRAM used: ${fmt(total-free)} / ${fmt(total)}\\nNode heap: ${fmt(used.heapUsed)} / ${fmt(used.heapTotal)}\\nCPU cores: ${os.cpus().length}\\nPlatform: ${os.platform()} ${os.arch()}\\nNode: ${process.version}`);
+    }
+  },
+  {
+    id: "src-nox-prayer-times",
+    command: "prayer-times",
+    aliases: ["awqat-salah"],
+    category: "Islamic",
+    description: "Fetches today's Cairo prayer times on demand; adapted from NOX's azan feature without group-wide auto-messaging.",
+    async execute({ reply }) {
+      const date = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Cairo", day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date()).replaceAll("/", "-");
+      const url = `https://api.aladhan.com/v1/timingsByCity/${date}?city=Cairo&country=Egypt&method=5`;
+      const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
+      if (!response.ok) return reply(`Prayer-time service returned HTTP ${response.status}.`);
+      const payload = await response.json();
+      const times = payload?.data?.timings;
+      if (!times) return reply("Prayer times are unavailable right now.");
+      return reply(`🕌 *مواقيت الصلاة — القاهرة*\\nالفجر: ${times.Fajr}\\nالظهر: ${times.Dhuhr}\\nالعصر: ${times.Asr}\\nالمغرب: ${times.Maghrib}\\nالعشاء: ${times.Isha}\\n\\nالمصدر: AlAdhan API`);
+    }
+  },
+  {
+    id: "src-hirobot-groups",
+    command: "groups",
+    aliases: ["grouplist"],
+    category: "Info",
+    description: "Lists groups the linked bot account currently participates in, ported from HIROBOT.",
+    ownerOnly: true,
+    async execute({ reply, context }) {
+      const socket = context?.runtime?.provider?.socket;
+      if (typeof socket?.groupFetchAllParticipating !== "function") return reply("The connected WhatsApp provider does not expose group listing.");
+      const groups = await socket.groupFetchAllParticipating();
+      const entries = Object.entries(groups || {}).map(([jid, group]) => `${group.subject || "Unnamed group"} — ${jid}`);
+      return reply(entries.length ? `*Joined groups (${entries.length})*\\n\\n${entries.slice(0, 60).join("\\n")}` : "No joined groups found.");
     }
   }
 ];
