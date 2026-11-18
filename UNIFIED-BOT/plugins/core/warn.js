@@ -8,7 +8,7 @@ export default {
     let target;
     try { target = protectGroupTarget(targetJid(message, args), message, config, context); }
     catch (error) { return reply(error.message); }
-    const reason = args.filter(value => !/^\\+?[\\d\\s()-]{8,20}$/.test(value)).join(" ").trim().slice(0, 300);
+    const reason = args.filter(value => !/^\+?[\d\s()-]{8,20}$/.test(value)).join(" ").trim().slice(0, 300);
     let count = 0;
     await context.runtime.store.transact(data => {
       data.chats ||= {};
