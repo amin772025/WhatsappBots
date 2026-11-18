@@ -1,6 +1,5 @@
 import makeWASocket, { DisconnectReason, useMultiFileAuthState } from "@whiskeysockets/baileys";
 import pino from "pino";
-import qrcode from "qrcode-terminal";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -74,8 +73,10 @@ export function createBaileysProvider({ sessionDir, onQr = () => {}, onConnectio
       socket.ev.on("creds.update", saveCreds);
       socket.ev.on("connection.update", update => {
         if (update.qr) onQr(update.qr);
-        onConnection(update);
-        for (const listener of connectionListeners) listener(update);
+        if (!closedByUser) {
+          onConnection(update);
+          for (const listener of connectionListeners) listener(update);
+        }
         if (update.connection === "close") socket = null;
       });
       socket.ev.on("messages.upsert", async ({ messages, type }) => {
