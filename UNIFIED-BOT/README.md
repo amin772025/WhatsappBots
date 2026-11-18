@@ -1,48 +1,63 @@
 # Amin Unified WhatsApp Bot
 
-A clean, instance-based WhatsApp bot foundation built from a review of the three supplied codebases. Original bot folders and archives are not modified.
+A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX-BOT and PatrickMD into one consistent command/plugin system. The original archives and extracted source trees are preserved unchanged.
 
 ## Requirements
-
-- Node.js 22+
+- Node.js 22 or newer
 - npm
-- A WhatsApp account that you are authorized to link as a companion device
+- A WhatsApp account you are authorized to link as a companion device
 
-## First run
-
+## Quick start
 1. Copy `settings.example.js` to `settings.js`.
-2. Set `ownerNumber` to the owner's international digits only (8–15 digits, no plus sign).
-3. Set bot name, owner name, prefix, language, mode and separate session/data directories.
-4. From this directory run `npm install`, then `npm test`, then `npm start`.
-5. Scan the QR code from WhatsApp > Linked devices.
+2. Open `settings.js` and set your own `ownerNumber` as international digits only (8–15 digits, no plus sign).
+3. Change `botName`, `ownerName`, `prefix`, `language`, `mode`, and the instance-specific `sessionDir` and `dataDir`.
+4. In this folder run:
+   ```sh
+   npm install
+   npm run check
+   npm test
+   npm start
+   ```
+5. Scan the terminal QR code using WhatsApp > Linked devices.
 
-Never share or commit `sessions/`, `data/`, `.env`, or a real settings file containing private credentials. `settings.js` is intentionally ignored by Git and is not included in the repository. The example owner number is blank; startup refuses to connect until you configure it.
+The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
+
+## Current command set (44 plugins)
+
+- General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
+- Group: `groupinfo`, `grouplink`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`
+- Tools: `calc`, `reverse`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
+- Games and virtual rewards: `8ball`, `coin`, `dice`, `rps`, `daily`, `work`, `balance`, `top`
+- Info: `owner`, `runtime`, `stats`, `profile`, `weather`, `wiki`
+
+Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Group` for one category. Prefix follows your settings.
+
+## Group command permissions
+- Moderation commands require the sender to be a group admin or the configured owner.
+- Actions that change group state also require the bot itself to be a group admin.
+- `antilink` and `welcome` settings are stored separately per group.
+- `kick`, `promote` and `demote` accept a reply, a mention, or a validated international number.
+- The virtual coin commands are for in-bot points only; there is no real-money betting or gambling.
 
 ## Architecture
+- `core/config.js`: validated per-instance settings.
+- `core/plugin-registry.js`: recursive ESM loader with duplicate-command checks.
+- `core/permissions.js`: explicit owner/group-admin checks; `fromMe` is not proof of ownership.
+- `core/dispatcher.js`: prefix parsing and permission-aware execution.
+- `core/storage/json-store.js`: per-instance atomic JSON persistence.
+- `core/group-actions.js`: shared group permission and target validation.
+- `core/media.js`: bounded image/sticker conversion.
+- `adapters/baileys/provider.js`: Baileys connection, QR events, message normalization and group participant events.
+- `runtime.js`: plugin dispatch, anti-link moderation, welcome events and usage counters.
+- `plugins/core/`: the 44 reviewed built-in commands.
 
-- `core/config.js`: validated per-instance configuration.
-- `core/plugin-registry.js`: recursive ESM plugin discovery, command/alias collision checks.
-- `core/permissions.js`: owner and group-admin checks; `fromMe` is not treated as proof of ownership.
-- `core/dispatcher.js`: prefix parsing and permission-aware dispatch.
-- `adapters/baileys/provider.js`: isolated Baileys connection, auth persistence, QR output and message normalization.
-- `runtime.js`: composes provider, registry, permissions and dispatcher.
-- `plugins/core/`: built-in commands.
-- `tests/`: automated unit tests.
+## Multi-instance use
+Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
 
-## Library decision
+## Source compatibility and exclusions
+The originals use three different Baileys forks, handler APIs, global variables and data models. Their 560+ plugin files are inventoried in `docs/source-plugin-catalog.json`; they are not safe to copy wholesale. The 44 commands in this folder are implemented against the new plugin contract and do not import legacy globals.
 
-The runtime pins the upstream `@whiskeysockets/baileys@6.7.24` interface instead of inheriting a fork's behavior. The three original projects use different forks/versions, so their plugins are not assumed to be drop-in compatible. Provider replacement remains isolated behind `adapters/baileys/`.
+Features involving adult content, stalking or personal-data lookup, credential or file extraction, arbitrary shell/eval execution, unsolicited bulk messaging, deceptive impersonation, and gambling are deliberately not enabled. External APIs used by `weather`, `wiki`, `define` and `translate` are public third-party services and may change or apply their own limits.
 
-## Migration policy
-
-The source review found 97 HIROBOT plugin files, 158 NOX-BOT plugin files and 305 PatrickMD plugin files. Their handlers depend on different global variables, helper APIs, database layouts and message wrappers. They are catalogued for manual migration; copying them wholesale would create broken commands and unsafe privilege assumptions. Each migrated command must declare its metadata and use the unified `execute({ message, args, reply, config, permissions, context })` contract.
-
-Do not migrate adult-content, privacy-invasive, credential-harvesting, bulk-messaging or shell-execution features. No such features are enabled in this starter.
-
-## Menu
-
-The menu uses a clean category-first text layout. It does not depend on remote videos, downloaded media or WhatsApp interactive-message support, so it has a plain-text fallback by design.
-
-## Tests
-
-`npm test` runs the local unit suite. GitHub Actions runs syntax checks and tests on changes to this folder.
+## Validation
+GitHub Actions runs a recursive syntax check over all JavaScript files and the automated test suite on changes to this folder. The tests use a fake WhatsApp provider; they do not log in to a real WhatsApp account. Real-device pairing must be completed by the operator.
