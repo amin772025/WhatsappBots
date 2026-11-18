@@ -22,13 +22,13 @@ A multi-instance WhatsApp bot that consolidates reviewed ideas from HIROBOT, NOX
 
 The example owner number is intentionally blank. Startup will stop until you configure it locally. No WhatsApp session is included. Never share `settings.js`, `sessions/`, `data/`, or private credentials.
 
-## Current command set (74 plugins)
+## Current command set (85 plugins)
 
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`, `warn`, `unwarn`, `warnings`
 - Tools: `calc`, `reverse`, `brat`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
-- Games and virtual rewards: `8ball`, `coin`, `dice`, `rps`, `daily`, `work`, `balance`, `top`
-- Owner controls: `mode`, `setprefix`, `setbotname`, `setlang` (owner-only; changes persist)
+- Games: `8ball`, `coin`, `dice`, `rps`, `trivia`, `mathquiz`, `wordmix`\n- Money: `daily`, `weekly` (not yet implemented)\n- Virtual economy: `work`, `balance`, `top`, `bank`, `deposit`, `withdraw`, `pay`
+- AI: `ai`, `gpt`, `deepseek`, `bing`, `explain`, `summarize`, `translateai` (public Pollinations-compatible endpoint; subject to service availability)\n- Admin: `warn`, `warnings`, `unwarn` (group-admin/owner controls)\n- Owner controls: `mode`, `setprefix`, `setbotname`, `setlang` (owner-only; changes persist)
 - Group extras: `idgc`, `listadmin`, `tagall`, `hidetag`, `setrules`, `rules`
 - Games and knowledge: `trivia`, `mathquiz`, `wordmix`, `animequote`, `asmaulhusna`, `doa`, `tasbih`
 - Utilities and diagnostics: `idme`, `shorturl`, `server`, `date`
@@ -41,7 +41,7 @@ Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Gro
 - Actions that change group state also require the bot itself to be a group admin.
 - `antilink` and `welcome` settings are stored separately per group.
 - `kick`, `promote` and `demote` accept a reply, a mention, or a validated international number.
-- The virtual coin commands are for in-bot points only; there is no real-money betting or gambling.
+- The virtual economy uses in-bot points only: daily rewards, work cooldowns, wallet/bank deposits and withdrawals, and member-to-member transfers. It has no real-money value, betting or gambling.
 
 ## Architecture
 - `core/config.js`: validated per-instance settings.
@@ -53,7 +53,7 @@ Use `.menu` for category navigation, `.menu all` for all commands, or `.menu Gro
 - `core/media.js`: bounded image/sticker conversion.
 - `adapters/baileys/provider.js`: Baileys connection, QR events, message normalization and group participant events.
 - `runtime.js`: plugin dispatch, anti-link moderation, welcome events and usage counters.
-- `plugins/core/`: the 74 implemented unified commands.
+- `plugins/core/`: the 85 implemented unified commands.
 
 ## Multi-instance use
 Create a separate copy of this folder for each bot instance. Each copy needs its own `settings.js`, `sessionDir`, and `dataDir`. Do not point two running instances at the same session directory. Keep private settings and auth files out of version control.
