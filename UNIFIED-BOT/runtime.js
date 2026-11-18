@@ -47,7 +47,7 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
     }
     if (message.isGroup && message.text && !permissions.isOwner(message) && !message.senderIsAdmin) {
       const chatSettings = store.read().chats?.[message.chatId] || {};
-      const hasLink = /(?:https?:\\/\\/|www\\.|chat\\.whatsapp\\.com\\/)/i.test(message.text);
+      const hasLink = /(?:https?:\/\/|www\.|chat\.whatsapp\.com\/)/i.test(message.text);
       if (chatSettings.antilink && hasLink && message.botIsAdmin && message.raw?.key) {
         try {
           await wa.socket.sendMessage(message.chatId, { delete: message.raw.key });
