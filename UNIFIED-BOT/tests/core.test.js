@@ -107,3 +107,14 @@ test("admin commands require the owner or a real group-admin signal", () => {
   assert.equal(permissions.canUseAdminCommand({ senderNumber: "201111111111", isGroup: true, senderIsAdmin: true }), true);
   assert.equal(permissions.canUseAdminCommand({ senderNumber: "201000000000", isGroup: false }), true);
 });
+
+test("group command plugins are registered and require admin privileges", async () => {
+  const registry = new PluginRegistry();
+  await registry.loadDirectory(new URL("../plugins/core/", import.meta.url).pathname);
+  for (const name of ["kick", "promote", "demote", "groupname", "groupdesc", "groupclose", "groupopen", "antilink", "welcome", "setwelcome"]) {
+    assert.equal(registry.resolve(name)?.adminOnly, true, name);
+  }
+  assert.ok(registry.resolve("grouplink"));
+  assert.ok(registry.resolve("dice"));
+  assert.ok(registry.resolve("base64decode"));
+});
