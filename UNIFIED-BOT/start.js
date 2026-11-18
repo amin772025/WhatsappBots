@@ -3,7 +3,13 @@ import { createRuntime } from "./runtime.js";
 import { loadConfig } from "./core/config.js";
 import { createBaileysProvider } from "./adapters/baileys/provider.js";
 
-const config = loadConfig();
+let settings;
+try {
+  settings = (await import("./settings.js")).default;
+} catch {
+  throw new Error("Missing settings.js. Copy settings.example.js to settings.js, configure ownerNumber, then run again.");
+}
+const config = loadConfig(settings);
 let shuttingDown = false;
 const provider = createBaileysProvider({
   sessionDir: config.sessionDir,
