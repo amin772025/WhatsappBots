@@ -41,6 +41,9 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
         (message.senderNumber && String(item.phoneNumber || "").replace(/\D/g, "") === message.senderNumber)
       );
       message.senderIsAdmin = Boolean(participant?.admin);
+      const botIds = [wa.socket?.user?.id, wa.socket?.user?.lid].filter(Boolean);
+      const botParticipant = metadata?.participants?.find(item => botIds.includes(item.id));
+      message.botIsAdmin = Boolean(botParticipant?.admin);
     }
     const result = await dispatch(message, { runtime });
     if (result.status === "executed" || result.status === "unknown-command") {
