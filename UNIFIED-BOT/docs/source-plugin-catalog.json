@@ -3,7 +3,7 @@
   "sources": {
     "HIROBOT": {
       "javascriptFiles": 272,
-      "pluginFiles": 97,
+      "pluginFiles": 96,
       "pluginGroups": {
         "ai": [
           "extracted/HIROBOT/HIROBOT-main/plugins/ai/ai.js",
@@ -121,7 +121,9 @@
         ]
       },
       "reviewStatus": "inventory only; not automatically imported",
-      "migrationRule": "manual API, dependency, permission and safety review required"
+      "migrationRule": "manual API, dependency, permission and safety review required",
+      "sourcePluginFilesTotal": 97,
+      "cataloguedPluginFiles": 96
     },
     "NOX": {
       "javascriptFiles": 188,
@@ -289,7 +291,9 @@
         ]
       },
       "reviewStatus": "inventory only; not automatically imported",
-      "migrationRule": "manual API, dependency, permission and safety review required"
+      "migrationRule": "manual API, dependency, permission and safety review required",
+      "sourcePluginFilesTotal": 158,
+      "cataloguedPluginFiles": 158
     },
     "PatrickMD": {
       "javascriptFiles": 319,
@@ -642,7 +646,9 @@
         ]
       },
       "reviewStatus": "inventory only; not automatically imported",
-      "migrationRule": "manual API, dependency, permission and safety review required"
+      "migrationRule": "manual API, dependency, permission and safety review required",
+      "sourcePluginFilesTotal": 305,
+      "cataloguedPluginFiles": 305
     }
   },
   "note": "This inventory intentionally omits categories and filenames unsuitable for a teen-safe general-purpose bot. Paths are source inventory only; none of these plugins are loaded by the unified runtime."
