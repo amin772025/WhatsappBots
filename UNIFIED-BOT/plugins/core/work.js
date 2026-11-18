@@ -2,7 +2,7 @@ import { updateUser } from "../../core/user-economy.js";
 const COOLDOWN = 60 * 60 * 1000;
 const jobs = ["helped organize a library", "watered a community garden", "fixed a bicycle", "helped a neighbor carry books", "sorted a collection of old games"];
 export default {
-  id: "work", command: "work", category: "Games",
+  id: "work", command: "work", category: "Money",
   description: "Earn virtual coins with a short cooldown",
   async execute({ message, reply, context }) {
     try {
