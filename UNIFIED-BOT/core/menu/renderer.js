@@ -1,4 +1,19 @@
 const categoryOrder = ["General", "Main", "Group", "Tools", "Downloader", "AI", "Games", "Owner", "Info"];
+const categoryIcons = {
+  general: "✨", main: "🏠", group: "🛡️", tools: "🧰",
+  downloader: "📥", ai: "🤖", games: "🎮", owner: "👑", info: "📊"
+};
+const categoryArabic = {
+  general: "عام", main: "الرئيسية", group: "المجموعات", tools: "الأدوات",
+  downloader: "التنزيلات", ai: "الذكاء الاصطناعي", games: "الألعاب",
+  owner: "المطور", info: "المعلومات"
+};
+const categoryTitle = (name, ar) => {
+  const key = name.toLowerCase();
+  const icon = categoryIcons[key] || "📂";
+  const label = ar ? (categoryArabic[key] || name) : name;
+  return `${icon} ${label}`;
+};
 
 export function renderMenu({ config, plugins, userName = "", uptimeSeconds = 0, category = "" }) {
   const grouped = new Map();
@@ -27,7 +42,7 @@ export function renderMenu({ config, plugins, userName = "", uptimeSeconds = 0, 
   if (category && category.toLowerCase() === "all") {
     const allLines = [...header];
     for (const name of categories) {
-      allLines.push("", `【 ${name} · ${grouped.get(name).length} 】`);
+      allLines.push("", `【 ${categoryTitle(name, ar)} · ${grouped.get(name).length} 】`);
       for (const plugin of grouped.get(name)) {
         const command = plugin.commands[0];
         allLines.push(`• ${config.prefix}${command}${plugin.description ? ` — ${plugin.description}` : ""}`);
@@ -45,7 +60,7 @@ export function renderMenu({ config, plugins, userName = "", uptimeSeconds = 0, 
       ].join("\n");
     }
     const entries = grouped.get(match);
-    return [...header, "", `【 ${match} · ${entries.length} 】`,
+    return [...header, "", `【 ${categoryTitle(match, ar)} · ${entries.length} 】`,
       ...entries.map(plugin => {
         const command = plugin.commands[0];
         return `• ${config.prefix}${command}${plugin.description ? ` — ${plugin.description}` : ""}`;
@@ -56,7 +71,7 @@ export function renderMenu({ config, plugins, userName = "", uptimeSeconds = 0, 
 
   const lines = [...header, "", ar ? "اختر قسماً لعرض أوامره:" : "Choose a category:"];
   for (const name of categories) {
-    lines.push(`▸ ${name}  [${grouped.get(name).length}] — ${config.prefix}menu ${name}`);
+    lines.push(`▸ ${categoryTitle(name, ar)}  [${grouped.get(name).length}] — ${config.prefix}menu ${name}`);
   }
   lines.push("", ar
     ? `اكتب ${config.prefix}menu all لعرض كل الأوامر.`
