@@ -18,3 +18,17 @@ export async function groupMetadata(context, message) {
   requireGroup(message);
   return context.runtime.provider.socket.groupMetadata(message.chatId);
 }
+
+export function protectGroupTarget(target, message, config, context) {
+  const targetDigits = String(target).split("@")[0].split(":")[0].replace(/\D/g, "");
+  if (target === message.senderJid || (message.senderNumber && targetDigits === message.senderNumber)) {
+    throw new Error("You cannot target your own account with this command.");
+  }
+  if (targetDigits && targetDigits === config.ownerNumber) {
+    throw new Error("The configured bot owner is protected from group moderation commands.");
+  }
+  const socket = context.runtime.provider.socket;
+  const botIds = [socket?.user?.id, socket?.user?.lid].filter(Boolean);
+  if (botIds.includes(target)) throw new Error("The bot account is protected.");
+  return target;
+}
