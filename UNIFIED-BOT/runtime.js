@@ -52,7 +52,13 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
       if (chatSettings.antilink && hasLink && message.botIsAdmin && message.raw?.key) {
         try {
           await wa.socket.sendMessage(message.chatId, { delete: message.raw.key });
-          await wa.sendText(message.chatId, "Links are disabled in this group.");
+          const now = Date.now();
+          if (now - Number(chatSettings.lastAntiLinkNoticeAt || 0) > 30000) {
+            await wa.sendText(message.chatId, "Links are disabled in this group.");
+            await store.transact(data => {
+              data.chats[message.chatId].lastAntiLinkNoticeAt = now;
+            });
+          }
         } catch (error) { console.error("[anti-link]", error); }
         return;
       }
