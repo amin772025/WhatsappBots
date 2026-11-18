@@ -27,8 +27,11 @@ The example owner number is intentionally blank. Startup will stop until you con
 - General: `menu`, `help`, `ping`, `quote`, `joke`, `fact`, `choose`, `report`
 - Group: `groupinfo`, `grouplink`, `add`, `kick`, `promote`, `demote`, `groupname`, `groupdesc`, `groupclose`, `groupopen`, `revokelink`, `antilink`, `welcome`, `setwelcome`, `warn`, `unwarn`, `warnings`
 - Tools: `calc`, `reverse`, `brat`, `base64`, `base64decode`, `uuid`, `define`, `translate`, `qr`, `sticker`, `toimg`
-- Games: `8ball`, `coin`, `dice`, `rps`, `trivia`, `mathquiz`, `wordmix`\n- Money: `daily`, `weekly` (not yet implemented)\n- Virtual economy: `work`, `balance`, `top`, `bank`, `deposit`, `withdraw`, `pay`
-- AI: `ai`, `gpt`, `deepseek`, `bing`, `explain`, `summarize`, `translateai` (public Pollinations-compatible endpoint; subject to service availability)\n- Admin: `warn`, `warnings`, `unwarn` (group-admin/owner controls)\n- Owner controls: `mode`, `setprefix`, `setbotname`, `setlang` (owner-only; changes persist)
+- Games: `8ball`, `coin`, `dice`, `rps`, `trivia`, `mathquiz`, `wordmix`
+- Money: `daily`, `work`, `balance`, `top`, `bank`, `deposit`, `withdraw`, `pay`
+- AI: `ai`, `gpt`, `deepseek`, `bing`, `explain`, `summarize`, `translateai` (public Pollinations-compatible endpoint; subject to service availability)
+- Admin: `warn`, `warnings`, `unwarn` (group-admin/owner controls)
+- Owner controls: `mode`, `setprefix`, `setbotname`, `setlang` (owner-only; changes persist)
 - Group extras: `idgc`, `listadmin`, `tagall`, `hidetag`, `setrules`, `rules`
 - Games and knowledge: `trivia`, `mathquiz`, `wordmix`, `animequote`, `asmaulhusna`, `doa`, `tasbih`
 - Utilities and diagnostics: `idme`, `shorturl`, `server`, `date`
