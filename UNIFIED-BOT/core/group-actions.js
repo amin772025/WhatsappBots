@@ -6,7 +6,7 @@ export function requireBotAdmin(message) {
   if (!message.botIsAdmin) throw new Error("Make the bot a group admin first.");
 }
 export function targetJid(message, args = []) {
-  const quoted = message?.quotedParticipantJid;
+  const quoted = message?.quotedParticipantJid || message?.mentionedJids?.[0];
   if (quoted) return quoted;
   const value = args.find(x => /^\+?[\d\s()-]{8,20}$/.test(x));
   if (!value) throw new Error("Reply to a member or provide an international phone number.");
