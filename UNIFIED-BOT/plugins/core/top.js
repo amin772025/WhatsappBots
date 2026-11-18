@@ -1,5 +1,5 @@
 export default {
-  id: "top", command: "top", aliases: ["leaderboard"], category: "Games",
+  id: "top", command: "top", aliases: ["leaderboard"], category: "Money",
   description: "Show the top ten virtual coin balances",
   async execute({ reply, context }) {
     const users = Object.entries(context.runtime.store.read().users || {})
