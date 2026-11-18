@@ -100,3 +100,10 @@ test("runtime loads built-in plugins and dispatches menu and ping through an inj
   await receive({ text: ".ping", senderNumber: "201000000000", isGroup: false, chatId: "chat" });
   assert.match(sent.at(-1).text, /Pong/);
 });
+
+test("admin commands require the owner or a real group-admin signal", () => {
+  const permissions = createPermissionService(config);
+  assert.equal(permissions.canUseAdminCommand({ senderNumber: "201111111111", isGroup: false }), false);
+  assert.equal(permissions.canUseAdminCommand({ senderNumber: "201111111111", isGroup: true, senderIsAdmin: true }), true);
+  assert.equal(permissions.canUseAdminCommand({ senderNumber: "201000000000", isGroup: false }), true);
+});
