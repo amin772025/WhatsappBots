@@ -43,6 +43,22 @@ export async function createRuntime({ config = loadConfig(), provider = null } =
       message.senderIsAdmin = Boolean(participant?.admin);
     }
     const result = await dispatch(message, { runtime });
+    if (result.status === "executed" || result.status === "unknown-command") {
+      const userKey = message.senderNumber || message.senderJid;
+      await store.transact(data => {
+        data.users ||= {};
+        data.chats ||= {};
+        const user = data.users[userKey] || (data.users[userKey] = {
+          commands: 0,
+          firstSeenAt: new Date().toISOString()
+        });
+        user.commands += 1;
+        user.lastSeenAt = new Date().toISOString();
+        const chat = data.chats[message.chatId] || (data.chats[message.chatId] = { commands: 0 });
+        chat.commands += 1;
+        chat.lastActivityAt = new Date().toISOString();
+      });
+    }
     if (result.status === "unknown-command") {
       await wa.sendText(message.chatId, `الأمر غير موجود. اكتب ${config.prefix}menu لعرض القائمة.`);
     }
