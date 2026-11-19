@@ -4,7 +4,7 @@ The three original codebases remain untouched. Of 560 discovered plugin source f
 
 ## Implemented in the unified runtime
 
-The unified runtime currently registers 344 plugin entries: 335 pre-existing entries plus nine source-derived ports from PatrickMD, NOX-BOT and HIROBOT.
+The unified runtime currently registers 347 plugin entries: 335 pre-existing entries plus twelve source-derived ports from PatrickMD, NOX-BOT and HIROBOT.
 - Core and information: menu/help, ping, owner, runtime, stats, profile, quote, joke, fact, report, persistent mode/prefix/name/language controls.
 - Group management: group info/link, add/remove, kick, promote/demote, rename/description, open/close, revoke link, anti-link, welcome and custom welcome text.
 - Utilities and media: calculator, reverse, Base64 encode/decode, UUID, dictionary, translation, QR image, green text (`brat`) sticker, image sticker and PNG conversion.
@@ -17,7 +17,7 @@ The unified runtime currently registers 344 plugin entries: 335 pre-existing ent
 
 ## Archived source files and migration status
 
-Of the 560 discovered source plugin files, 558 are retained in the repository: 518 were copied into `source-archive/`, while 40 remain in the unchanged extracted source trees and are listed separately in the catalog. Two adult-content downloader files are deliberately not duplicated into the archive. None of these archived or extracted legacy files is loaded by the unified runtime. The runtime loads JavaScript modules from `plugins/core/`; generic commands that were not present in the original sources are not counted as migrated. the loader registers exported plugin objects (including arrays of source-derived plugins). The current registry contains 344 entries. The unrelated generic 200-command pack was removed because it was not ported from the three original bots.
+Of the 560 discovered source plugin files, 558 are retained in the repository: 518 were copied into `source-archive/`, while 40 remain in the unchanged extracted source trees and are listed separately in the catalog. Two adult-content downloader files are deliberately not duplicated into the archive. None of these archived or extracted legacy files is loaded by the unified runtime. The runtime loads JavaScript modules from `plugins/core/`; generic commands that were not present in the original sources are not counted as migrated. the loader registers exported plugin objects (including arrays of source-derived plugins). The current registry contains 347 entries. The unrelated generic 200-command pack was removed because it was not ported from the three original bots.
 
 ## Why the other source plugins are not imported automatically
 
